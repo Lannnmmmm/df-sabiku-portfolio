@@ -154,7 +154,7 @@ function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
         <shapeGeometry args={[leafSilhouette]} />
         <meshStandardMaterial color="#71986a" roughness={0.48} side={DoubleSide} />
       </mesh>
-      <mesh position={[0.49, 0, 0.008]} rotation={[0, 0, 0]}>
+      <mesh position={[0.49, 0, 0.008]} rotation={[0, 0, -Math.PI / 2]}>
         <cylinderGeometry args={[0.004, 0.009, 0.9, 5]} />
         <meshStandardMaterial color="#b1c18d" roughness={0.6} />
       </mesh>
