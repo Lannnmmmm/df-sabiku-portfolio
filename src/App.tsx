@@ -1,7 +1,7 @@
 import { Suspense, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, OrbitControls, Sparkles } from '@react-three/drei'
-import type { Mesh } from 'three'
+import type { Group, Mesh } from 'three'
 import { ArrowDown, ArrowRight, ArrowUpRight, BookOpen, Globe2, Leaf, Menu, Microscope, Move3D, Sprout, X } from 'lucide-react'
 
 type Language = 'id' | 'en'
@@ -95,7 +95,7 @@ const works = [
 ]
 
 function SeedObject() {
-  const group = useRef<Mesh>(null)
+  const group = useRef<Group>(null)
   const core = useRef<Mesh>(null)
   useFrame((state, delta) => {
     if (group.current) {
