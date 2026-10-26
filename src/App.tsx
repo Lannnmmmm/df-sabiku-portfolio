@@ -39,7 +39,7 @@ const copy = {
     contactTitle: 'Terhubung & berkolaborasi',
     contactBody: 'Saluran kontak pribadi akan ditambahkan setelah dikonfirmasi.',
     emailLabel: 'Email',
-    scholarLabel: 'Profil publikasi (SINTA)',
+    scholarLabel: 'Google Scholar',
     orcidLabel: 'ORCID',
     facebookLabel: 'Facebook',
     linkedinLabel: 'LinkedIn',
@@ -79,7 +79,7 @@ const copy = {
     contactTitle: 'Connect & collaborate',
     contactBody: 'Personal contact channels will be added once confirmed.',
     emailLabel: 'Email',
-    scholarLabel: 'Publication record (SINTA)',
+    scholarLabel: 'Google Scholar',
     orcidLabel: 'ORCID',
     facebookLabel: 'Facebook',
     linkedinLabel: 'LinkedIn',
@@ -350,7 +350,7 @@ export default function App() {
         <div className="contribution-layout"><h2>{t.workTitle}</h2><div><p>{t.workBody}</p><a className="feature-link" href={works[3].href} target="_blank" rel="noreferrer"><span><Leaf size={18} /> {language === 'id' ? works[3].title : works[3].titleEn}</span><ArrowUpRight size={18} /></a><p className="source-note">{t.note}</p></div></div>
       </section>
 
-      <section className="contact-section" id="contact"><div className="contact-heading"><div><div className="section-kicker">04 / CONTACT</div><h2>{t.contactTitle}</h2></div><p>{t.contactBody}</p></div><div className="contact-grid"><div><span>{t.emailLabel}</span><strong>-</strong></div><div><span>{t.scholarLabel}</span><strong><a href="https://sinta.kemdiktisaintek.go.id/authors/profile/6086921/?view=books" target="_blank" rel="noreferrer">SINTA / publikasi ↗</a></strong></div><div><span>{t.orcidLabel}</span><strong>-</strong></div><div><span>{t.facebookLabel}</span><strong>-</strong></div><div><span>{t.linkedinLabel}</span><strong>-</strong></div><div><span>{t.instagramLabel}</span><strong>-</strong></div></div><div className="contact-source"><span>{t.contactSourceLabel}</span><a href="https://polije.ac.id/dosen-polije-berdayakan-petani-klungkung-limbah-kulit-kopi-jadi-pupuk-organik-cair/" target="_blank" rel="noreferrer">{t.contactSourceValue} ↗</a></div></section><footer className="site-footer"><span>DF<span className="gold-dot">.</span> / ACADEMIC PORTFOLIO</span><span>{t.copyrightLabel}</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>BACK TO TOP ↑</button></footer>
+      <section className="contact-section" id="contact"><div className="contact-heading"><div><div className="section-kicker">04 / CONTACT</div><h2>{t.contactTitle}</h2></div><p>{t.contactBody}</p></div><div className="contact-grid"><div><span>{t.emailLabel}</span><strong>-</strong></div><div><span>{t.scholarLabel}</span><strong>-</strong></div><div><span>{t.orcidLabel}</span><strong>-</strong></div><div><span>{t.facebookLabel}</span><strong>-</strong></div><div><span>{t.linkedinLabel}</span><strong>-</strong></div><div><span>{t.instagramLabel}</span><strong>-</strong></div></div><div className="contact-source"><span>{t.contactSourceLabel}</span><a href="https://polije.ac.id/dosen-polije-berdayakan-petani-klungkung-limbah-kulit-kopi-jadi-pupuk-organik-cair/" target="_blank" rel="noreferrer">{t.contactSourceValue} ↗</a></div></section><footer className="site-footer"><span>DF<span className="gold-dot">.</span> / ACADEMIC PORTFOLIO</span><span>{t.copyrightLabel}</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>BACK TO TOP ↑</button></footer>
     </main>
   )
 }
