@@ -297,6 +297,27 @@ export default function App() {
       document.body.style.overflow = previousOverflow
     }
   }, [intro])
+  useEffect(() => {
+    const targets = document.querySelectorAll<HTMLElement>('.content-section, .contact-strip, .site-footer')
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach((target) => target.classList.add('is-visible'))
+      return
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' })
+    targets.forEach((target) => {
+      target.classList.add('reveal-on-scroll')
+      observer.observe(target)
+    })
+    return () => observer.disconnect()
+  }, [])
+
   const goTo = (id: string) => {
     setMenuOpen(false)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
