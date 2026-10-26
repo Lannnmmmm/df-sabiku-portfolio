@@ -240,13 +240,6 @@ export default function App() {
       document.body.style.overflow = previousOverflow
     }
   }, [intro])
-  const enterSite = () => {
-    setIntroLeaving(true)
-    window.setTimeout(() => {
-      setIntro(false)
-      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-    }, 650)
-  }
   const goTo = (id: string) => {
     setMenuOpen(false)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
