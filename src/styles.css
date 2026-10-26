@@ -93,3 +93,15 @@
 .contact-strip-links a{color:#d5d9c8;border-bottom:1px solid #65765c;padding-bottom:2px;white-space:nowrap}
 .contact-strip-links a:hover{color:var(--gold)}
 @media(max-width:680px){.contact-strip{align-items:flex-start;flex-direction:column;gap:9px;padding:18px 22px}.contact-strip-links{gap:7px 14px}}
+
+
+/* Simple contact rows above the footer, aligned by label and colon. */
+.contact-strip{display:block;padding:22px clamp(22px,5vw,72px);background:#101d18;color:#aab5a9;border-top:1px solid var(--line);font-size:10px;line-height:1.8}
+.contact-strip-list{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.contact-strip-list>div{display:grid;grid-template-columns:140px 12px minmax(0,1fr);align-items:baseline;gap:8px;min-height:20px}
+.contact-strip-list>div>span{color:#aab5a9}
+.contact-strip-list b{font-weight:400;color:#7f8d7e}
+.contact-strip-list strong{font-weight:400;color:#e1e7dc}
+.contact-strip-list a{color:#d5d9c8;border-bottom:1px solid #65765c;padding-bottom:1px;width:max-content;max-width:100%}
+.contact-strip-list a:hover{color:var(--gold)}
+@media(max-width:680px){.contact-strip{padding:18px 22px}.contact-strip-list>div{grid-template-columns:125px 10px minmax(0,1fr);gap:6px}}
