@@ -110,7 +110,7 @@
 /* Quiet motion layer: atmospheric light, soft depth, and accessible reveals. */
 .hero-backdrop::after{content:"";position:absolute;inset:-18%;background:radial-gradient(ellipse at 70% 45%,#b8c88a12,transparent 34%),radial-gradient(ellipse at 26% 78%,#c7b57c0b,transparent 32%);animation:ambient-drift 18s ease-in-out infinite alternate;will-change:transform}
 .hero-art-ring{animation:ring-drift 26s ease-in-out infinite alternate}
-.ring-b{animation-delay:-8s}
+.ring-b{animation-name:ring-drift-b;animation-delay:-8s}
 .cinematic-orbit{animation:orbit-breathe 22s ease-in-out infinite alternate}
 .cinematic-orbit-b{animation-delay:-11s}
 .eyebrow-dot{animation:soft-glow 3.8s ease-in-out infinite}
@@ -136,6 +136,7 @@
 .reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
 @keyframes ambient-drift{0%{transform:translate3d(-1.5%,0,0) scale(1)}100%{transform:translate3d(1.5%,-1%,0) scale(1.04)}}
 @keyframes ring-drift{0%{transform:rotate(-24deg) scaleY(.6) translateY(0)}100%{transform:rotate(-20deg) scaleY(.62) translateY(-7px)}}
+@keyframes ring-drift-b{0%{transform:rotate(36deg) scaleY(.85) translateY(0)}100%{transform:rotate(40deg) scaleY(.87) translateY(7px)}}
 @keyframes orbit-breathe{0%{translate:-50% -50%;scale:1;opacity:.72}100%{translate:-50% -50%;scale:1.025;opacity:1}}
 @keyframes soft-glow{0%,100%{box-shadow:0 0 8px #c7b57c55}50%{box-shadow:0 0 16px #c7b57c99}}
 @media(max-width:680px){.hero-backdrop::after{animation-duration:24s}.hero-art-ring{animation-duration:30s}.reveal-on-scroll:not(.is-visible){transform:translateY(12px)}}
