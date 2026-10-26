@@ -151,10 +151,10 @@ function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
   return (
     <group ref={group} position={position} rotation={rotation} scale={[0.001, 0.001, 0.001]}>
       <mesh position={[0, 0, 0]} rotation={[0, 0, 0]}>
-        <shapeGeometry args={[leafSilhouette]} />
+        <extrudeGeometry args={[leafSilhouette, { depth: 0.035, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.012, bevelThickness: 0.012 }]} />
         <meshStandardMaterial color="#71986a" roughness={0.48} side={DoubleSide} />
       </mesh>
-      <mesh position={[0.49, 0, 0.008]} rotation={[0, 0, -Math.PI / 2]}>
+      <mesh position={[0.49, 0, 0.045]} rotation={[0, 0, -Math.PI / 2]}>
         <cylinderGeometry args={[0.004, 0.009, 0.9, 5]} />
         <meshStandardMaterial color="#b1c18d" roughness={0.6} />
       </mesh>
@@ -185,26 +185,34 @@ function PlantObject({ growing = false }: { growing?: boolean }) {
         <meshStandardMaterial color="#b9a36e" roughness={0.42} metalness={0.08} />
       </mesh>
       {/* Primary and lateral roots grow down into open space; no soil plane is used. */}
-      <GrowingSegment growing={growing} start={[0, -0.16, 0]} end={[0.035, -1.22, 0.02]} from={0.55} to={1.7} radius={0.027} color="#a2aa82" />
-      <GrowingSegment growing={growing} start={[0.01, -0.55, 0.01]} end={[-0.34, -0.91, 0.025]} from={1.05} to={1.85} radius={0.014} color="#899b75" />
-      <GrowingSegment growing={growing} start={[0.02, -0.78, 0.015]} end={[0.28, -1.04, -0.02]} from={1.25} to={2.05} radius={0.012} color="#9ba77e" />
-      <GrowingSegment growing={growing} start={[0.02, -0.85, 0.015]} end={[-0.08, -1.28, 0.04]} from={1.45} to={2.2} radius={0.009} color="#9ca981" />
+      <GrowingSegment growing={growing} start={[0, -0.16, 0]} end={[0.035, -1.28, 0.02]} from={0.55} to={1.7} radius={0.031} color="#a2aa82" />
+      <GrowingSegment growing={growing} start={[0.01, -0.38, 0.015]} end={[-0.25, -0.69, 0.13]} from={0.8} to={1.7} radius={0.018} color="#899b75" />
+      <GrowingSegment growing={growing} start={[-0.12, -0.54, 0.07]} end={[-0.48, -0.72, 0.16]} from={1.15} to={1.95} radius={0.009} color="#9ca981" />
+      <GrowingSegment growing={growing} start={[-0.25, -0.69, 0.13]} end={[-0.38, -0.94, 0.2]} from={1.4} to={2.15} radius={0.006} color="#9ba77e" />
+      <GrowingSegment growing={growing} start={[0.02, -0.48, -0.01]} end={[0.3, -0.75, -0.14]} from={0.95} to={1.8} radius={0.016} color="#899b75" />
+      <GrowingSegment growing={growing} start={[0.19, -0.65, -0.09]} end={[0.48, -0.82, -0.2]} from={1.25} to={2.0} radius={0.008} color="#a2aa82" />
+      <GrowingSegment growing={growing} start={[0.3, -0.75, -0.14]} end={[0.33, -1.02, -0.18]} from={1.5} to={2.2} radius={0.006} color="#9ca981" />
+      <GrowingSegment growing={growing} start={[0.015, -0.7, 0.01]} end={[-0.08, -1.04, -0.12]} from={1.25} to={2.05} radius={0.011} color="#9ba77e" />
+      <GrowingSegment growing={growing} start={[-0.06, -0.93, -0.08]} end={[-0.23, -1.13, -0.16]} from={1.55} to={2.3} radius={0.006} color="#899b75" />
+      <GrowingSegment growing={growing} start={[0.025, -0.9, 0.02]} end={[0.12, -1.18, 0.12]} from={1.5} to={2.25} radius={0.008} color="#9ca981" />
+      <GrowingSegment growing={growing} start={[0.12, -1.18, 0.12]} end={[0.28, -1.3, 0.18]} from={1.75} to={2.45} radius={0.005} color="#a2aa82" />
+      <GrowingSegment growing={growing} start={[0.0, -0.3, -0.02]} end={[0.1, -0.55, -0.16]} from={0.9} to={1.75} radius={0.012} color="#9ba77e" />
       {/* Stem segments extend from the seed upward in sequence. */}
-      <GrowingSegment growing={growing} start={[0, -0.12, 0]} end={[0.02, 0.28, 0]} from={1.0} to={1.8} radius={0.045} color={green} />
-      <GrowingSegment growing={growing} start={[0.02, 0.28, 0]} end={[-0.02, 0.72, 0.01]} from={1.65} to={2.35} radius={0.039} color={green} />
-      <GrowingSegment growing={growing} start={[-0.02, 0.72, 0.01]} end={[0.08, 1.12, 0]} from={2.2} to={2.9} radius={0.033} color={youngGreen} />
+      <GrowingSegment growing={growing} start={[0, -0.12, 0]} end={[0.02, 0.28, 0]} from={1.0} to={1.8} radius={0.066} color={green} />
+      <GrowingSegment growing={growing} start={[0.02, 0.28, 0]} end={[-0.02, 0.72, 0.01]} from={1.65} to={2.35} radius={0.049} color={green} />
+      <GrowingSegment growing={growing} start={[-0.02, 0.72, 0.01]} end={[0.08, 1.12, 0]} from={2.2} to={2.9} radius={0.036} color={youngGreen} />
       <GrowingSegment growing={growing} start={[0.08, 1.12, 0]} end={[0.04, 1.42, -0.015]} from={2.8} to={3.35} radius={0.025} color={youngGreen} />
       {/* Small branches are separate growing segments. */}
       <GrowingSegment growing={growing} start={[0.0, 0.48, 0]} end={[-0.42, 0.72, 0.02]} from={2.15} to={2.95} radius={0.023} color={green} />
       <GrowingSegment growing={growing} start={[0.02, 0.88, 0]} end={[0.43, 1.05, 0.01]} from={2.75} to={3.45} radius={0.021} color={green} />
       <GrowingSegment growing={growing} start={[0.07, 1.13, 0]} end={[-0.25, 1.3, 0.01]} from={3.1} to={3.8} radius={0.018} color={youngGreen} />
-      <GrowingLeaf growing={growing} position={[-0.22, 0.56, 0.03]} rotation={[0.1, 0.1, 0.6]} from={2.0} size={0.95} />
-      <GrowingLeaf growing={growing} position={[-0.34, 0.69, 0.03]} rotation={[0.05, 0.2, 2.6]} from={2.2} size={0.8} />
-      <GrowingLeaf growing={growing} position={[0.23, 0.94, 0.02]} rotation={[0.1, 0.1, -0.55]} from={2.7} size={0.9} />
-      <GrowingLeaf growing={growing} position={[0.39, 1.03, 0.02]} rotation={[0.05, 0.2, 0.25]} from={2.9} size={0.76} />
-      <GrowingLeaf growing={growing} position={[-0.12, 1.2, 0.02]} rotation={[0.05, 0.1, 2.55]} from={3.25} size={0.82} />
-      <GrowingLeaf growing={growing} position={[0.1, 1.35, 0]} rotation={[0.1, 0.1, -0.7]} from={3.55} size={0.95} />
-      <GrowingLeaf growing={growing} position={[0.04, 1.46, 0]} rotation={[0.05, 0.1, 0.15]} from={3.75} size={0.75} />
+      <GrowingLeaf growing={growing} position={[-0.22, 0.56, 0.03]} rotation={[0.28, 0.42, 0.6]} from={2.0} size={0.95} />
+      <GrowingLeaf growing={growing} position={[-0.34, 0.69, 0.03]} rotation={[-0.22, -0.35, 2.6]} from={2.2} size={0.8} />
+      <GrowingLeaf growing={growing} position={[0.23, 0.94, 0.02]} rotation={[0.18, -0.48, -0.55]} from={2.7} size={0.9} />
+      <GrowingLeaf growing={growing} position={[0.39, 1.03, 0.02]} rotation={[-0.24, 0.36, 0.25]} from={2.9} size={0.76} />
+      <GrowingLeaf growing={growing} position={[-0.12, 1.2, 0.02]} rotation={[0.3, 0.48, 2.55]} from={3.25} size={0.82} />
+      <GrowingLeaf growing={growing} position={[0.1, 1.35, 0]} rotation={[-0.26, -0.42, -0.7]} from={3.55} size={0.95} />
+      <GrowingLeaf growing={growing} position={[0.04, 1.46, 0]} rotation={[0.2, 0.22, 0.15]} from={3.75} size={0.75} />
     </group>
   )
 }
