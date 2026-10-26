@@ -97,7 +97,6 @@ const works = [
 function SeedObject({ growing = false }: { growing?: boolean }) {
   const group = useRef<Group>(null)
   const core = useRef<Mesh>(null)
-  const growth = useRef(0)
   useFrame((state, delta) => {
     if (group.current) {
       const easedGrowth = growing ? Math.min(1, Math.max(0.06, 1 - Math.pow(1 - Math.min(1, state.clock.elapsedTime / 3.8), 3))) : 1
