@@ -159,11 +159,16 @@ export default function App() {
   const t = copy[language]
   useEffect(() => {
     if (!intro) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     const timer = window.setTimeout(() => {
       setIntro(false)
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     }, 5400)
-    return () => window.clearTimeout(timer)
+    return () => {
+      window.clearTimeout(timer)
+      document.body.style.overflow = previousOverflow
+    }
   }, [intro])
   const enterSite = () => {
     setIntro(false)
