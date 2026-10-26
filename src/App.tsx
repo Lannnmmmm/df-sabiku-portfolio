@@ -150,7 +150,7 @@ function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
   })
   return (
     <group ref={group} position={position} rotation={rotation} scale={[0.001, 0.001, 0.001]}>
-      <mesh position={[0.5, 0, 0]} rotation={[0, 0, 0]}>
+      <mesh position={[0, 0, 0]} rotation={[0, 0, 0]}>
         <shapeGeometry args={[leafSilhouette]} />
         <meshStandardMaterial color="#71986a" roughness={0.48} side={DoubleSide} />
       </mesh>
