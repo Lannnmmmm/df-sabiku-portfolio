@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sparkles } from '@react-three/drei'
-import { Vector3 } from 'three'
+import { DoubleSide, Shape, Vector3 } from 'three'
 import type { Group, Mesh } from 'three'
 import { ArrowDown, ArrowUpRight, BookOpen, Globe2, Leaf, Menu, Microscope, Sprout, X } from 'lucide-react'
 
@@ -122,11 +122,16 @@ function GrowingSegment({ start, end, from, to, radius, color, growing }: {
   })
   return (
     <mesh ref={mesh} position={midpoint.toArray() as Point3}>
-      <cylinderGeometry args={[radius * 0.72, radius, 1, 9]} />
+      <cylinderGeometry args={[radius * 0.58, radius, 1, 12]} />
       <meshStandardMaterial color={color} roughness={0.72} />
     </mesh>
   )
 }
+
+const leafSilhouette = new Shape()
+leafSilhouette.moveTo(0, 0)
+leafSilhouette.bezierCurveTo(0.18, 0.28, 0.66, 0.34, 1, 0.025)
+leafSilhouette.bezierCurveTo(0.7, -0.19, 0.23, -0.17, 0, 0)
 
 function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
   position: Point3
@@ -135,19 +140,25 @@ function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
   growing: boolean
   size?: number
 }) {
-  const mesh = useRef<Mesh>(null)
+  const group = useRef<Group>(null)
   useFrame((state) => {
-    if (!mesh.current) return
-    const progress = growing ? Math.min(1, Math.max(0, (state.clock.elapsedTime - from) / 0.55)) : 1
+    if (!group.current) return
+    const progress = growing ? Math.min(1, Math.max(0, (state.clock.elapsedTime - from) / 0.7)) : 1
     const eased = 1 - Math.pow(1 - progress, 3)
-    mesh.current.scale.set(0.001 + 0.39 * size * eased, 0.001 + 0.13 * size * eased, 0.001 + 0.055 * size * eased)
-    mesh.current.rotation.z = rotation[2] + Math.sin(state.clock.elapsedTime * 1.1 + from) * 0.025 * progress
+    group.current.scale.set(0.001 + 0.52 * size * eased, 0.001 + 0.52 * size * eased, 0.001 + 0.52 * size * eased)
+    group.current.rotation.z = rotation[2] + Math.sin(state.clock.elapsedTime * 0.75 + from) * 0.018 * progress
   })
   return (
-    <mesh ref={mesh} position={position} rotation={rotation} scale={[0.001, 0.001, 0.001]}>
-      <sphereGeometry args={[1, 24, 16]} />
-      <meshStandardMaterial color="#6f9668" roughness={0.52} />
-    </mesh>
+    <group ref={group} position={position} rotation={rotation} scale={[0.001, 0.001, 0.001]}>
+      <mesh position={[0.5, 0, 0]} rotation={[0, 0, 0]}>
+        <shapeGeometry args={[leafSilhouette]} />
+        <meshStandardMaterial color="#71986a" roughness={0.48} side={DoubleSide} />
+      </mesh>
+      <mesh position={[0.49, 0, 0.008]} rotation={[0, 0, 0]}>
+        <cylinderGeometry args={[0.004, 0.009, 0.9, 5]} />
+        <meshStandardMaterial color="#b1c18d" roughness={0.6} />
+      </mesh>
+    </group>
   )
 }
 
@@ -174,10 +185,10 @@ function PlantObject({ growing = false }: { growing?: boolean }) {
         <meshStandardMaterial color="#b9a36e" roughness={0.42} metalness={0.08} />
       </mesh>
       {/* Primary and lateral roots grow down into open space; no soil plane is used. */}
-      <GrowingSegment growing={growing} start={[0, -0.16, 0]} end={[0.035, -1.22, 0.02]} from={0.55} to={1.7} radius={0.027} color="#b4b68a" />
-      <GrowingSegment growing={growing} start={[0.01, -0.55, 0.01]} end={[-0.34, -0.91, 0.025]} from={1.05} to={1.85} radius={0.014} color="#9ba77e" />
+      <GrowingSegment growing={growing} start={[0, -0.16, 0]} end={[0.035, -1.22, 0.02]} from={0.55} to={1.7} radius={0.027} color="#a2aa82" />
+      <GrowingSegment growing={growing} start={[0.01, -0.55, 0.01]} end={[-0.34, -0.91, 0.025]} from={1.05} to={1.85} radius={0.014} color="#899b75" />
       <GrowingSegment growing={growing} start={[0.02, -0.78, 0.015]} end={[0.28, -1.04, -0.02]} from={1.25} to={2.05} radius={0.012} color="#9ba77e" />
-      <GrowingSegment growing={growing} start={[0.02, -0.85, 0.015]} end={[-0.08, -1.28, 0.04]} from={1.45} to={2.2} radius={0.009} color="#aab18a" />
+      <GrowingSegment growing={growing} start={[0.02, -0.85, 0.015]} end={[-0.08, -1.28, 0.04]} from={1.45} to={2.2} radius={0.009} color="#9ca981" />
       {/* Stem segments extend from the seed upward in sequence. */}
       <GrowingSegment growing={growing} start={[0, -0.12, 0]} end={[0.02, 0.28, 0]} from={1.0} to={1.8} radius={0.045} color={green} />
       <GrowingSegment growing={growing} start={[0.02, 0.28, 0]} end={[-0.02, 0.72, 0.01]} from={1.65} to={2.35} radius={0.039} color={green} />
@@ -201,9 +212,9 @@ function PlantObject({ growing = false }: { growing?: boolean }) {
 function SeedScene({ growing = false }: { growing?: boolean }) {
   return (
     <Canvas camera={{ position: [0, 0.12, growing ? 6.2 : 5.4], fov: growing ? 34 : 38 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }}>
-      <ambientLight intensity={1.25} />
-      <directionalLight position={[4, 4, 3]} intensity={2.6} color="#fff0c9" />
-      <pointLight position={[-3, -1, 2]} intensity={1.6} color="#759c79" />
+      <ambientLight intensity={0.8} />
+      <directionalLight position={[3, 4, 3]} intensity={2.0} color="#fff4d8" />
+      <pointLight position={[-2, 0.5, 2]} intensity={1.15} color="#8cae80" />
       <Suspense fallback={null}>
         <PlantObject growing={growing} />
         {growing && <Sparkles count={14} scale={4.5} size={1.1} speed={0.12} color="#d7c99b" opacity={0.22} />}
