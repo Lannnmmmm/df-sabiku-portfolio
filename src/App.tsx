@@ -1,4 +1,4 @@
-import { Suspense, useRef, useState } from 'react'
+import { Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, OrbitControls, Sparkles } from '@react-three/drei'
 import type { Group, Mesh } from 'three'
@@ -144,6 +144,12 @@ function SeedScene() {
 }
 
 export default function App() {
+  useLayoutEffect(() => {
+    // Always begin at the cinematic introduction, not a browser-restored scroll position.
+    window.history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
+  }, [])
+
   const [language, setLanguage] = useState<Language>('id')
   const [intro, setIntro] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
