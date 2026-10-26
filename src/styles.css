@@ -82,3 +82,14 @@
  .contact-grid>div{padding:14px;min-height:80px}
  .contact-source{align-items:flex-start;flex-direction:column;gap:10px}
 }
+
+
+/* Compact inline contact row above the single-line footer. */
+.contact-strip{display:flex;align-items:center;gap:24px;padding:20px clamp(22px,5vw,72px);background:#101d18;color:#aab5a9;border-top:1px solid var(--line);font-size:9px;line-height:1.8}
+.contact-strip-label{flex:none;color:#c7b57c;font-size:9px;letter-spacing:.14em;white-space:nowrap}
+.contact-strip-links{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px}
+.contact-strip-links span{white-space:nowrap;color:#aab5a9}
+.contact-strip-links b{font-weight:400;color:#e1e7dc;margin-left:3px}
+.contact-strip-links a{color:#d5d9c8;border-bottom:1px solid #65765c;padding-bottom:2px;white-space:nowrap}
+.contact-strip-links a:hover{color:var(--gold)}
+@media(max-width:680px){.contact-strip{align-items:flex-start;flex-direction:column;gap:9px;padding:18px 22px}.contact-strip-links{gap:7px 14px}}
