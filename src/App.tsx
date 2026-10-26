@@ -165,24 +165,21 @@ export default function App() {
 
   return (
     <main>
-      {intro && <section className="intro-screen" aria-label="Portfolio introduction">
-        <div className="intro-top"><span>DF / ACADEMIC PORTFOLIO</span><span>EST. IN CURIOSITY</span></div>
-        <div className="intro-grid">
-          <div className="intro-copy">
-            <span className="eyebrow"><span className="eyebrow-dot" /> {t.eyebrow}</span>
-            <h1>{t.title}</h1>
-            <p className="intro-description">{t.intro}</p>
-            <button className="primary-button" onClick={enterSite}>{t.enter}<ArrowRight size={17} /></button>
-            <button className="text-button skip-button" onClick={enterSite}>{t.skip}</button>
-          </div>
-          <div className="seed-stage">
-            <div className="orbit orbit-one" /><div className="orbit orbit-two" />
-            <div className="seed-caption"><span>01</span><span>SEED OF KNOWLEDGE</span></div>
-            <SeedScene />
-            <div className="drag-hint"><Move3D size={14} /> Drag to explore</div>
-          </div>
+      {intro && <section className="intro-screen cinematic-intro" aria-label="Portfolio introduction">
+        <div className="cinematic-grain" />
+        <div className="intro-top"><span>DF / ACADEMIC PORTFOLIO</span><span>AN INTERACTIVE JOURNEY</span></div>
+        <div className="cinematic-orbit cinematic-orbit-a" />
+        <div className="cinematic-orbit cinematic-orbit-b" />
+        <div className="cinematic-seed"><SeedScene /></div>
+        <div className="cinematic-content">
+          <span className="cinematic-kicker"><span className="eyebrow-dot" /> A JOURNEY INTO AGRICULTURAL SCIENCE</span>
+          <div className="cinematic-monogram">D<span>F</span><i>.</i></div>
+          <p className="cinematic-name">DEWI FATMAWATY SABIKU</p>
+          <h1>{language === 'id' ? <>Ilmu tumbuh<br /><em>dari rasa ingin tahu.</em></> : <>Where knowledge grows,<br /><em>curiosity takes root.</em></>}</h1>
+          <p className="cinematic-description">{language === 'id' ? 'Sebuah perjalanan melalui riset, benih, dan kontribusi bagi pertanian.' : 'A journey through research, seeds, and contributions to agriculture.'}</p>
+          <button className="cinematic-enter" onClick={enterSite}>{language === 'id' ? 'Masuki pengalaman' : 'Enter experience'} <ArrowRight size={17} /></button>
         </div>
-        <div className="intro-bottom"><span>AGRICULTURE · SCIENCE · PEOPLE</span><button className="text-button" onClick={enterSite}>{t.skip}<ArrowDown size={14} /></button></div>
+        <div className="intro-bottom"><span>AGRICULTURE <i>·</i> SCIENCE <i>·</i> PEOPLE</span><button className="text-button" onClick={enterSite}>{t.skip}<ArrowDown size={14} /></button></div>
       </section>}
 
       <header className="site-header">
