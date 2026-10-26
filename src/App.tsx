@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, OrbitControls, Sparkles } from '@react-three/drei'
+import { Vector3 } from 'three'
 import type { Group, Mesh } from 'three'
 import { ArrowDown, ArrowRight, ArrowUpRight, BookOpen, Globe2, Leaf, Menu, Microscope, Sprout, X } from 'lucide-react'
 
@@ -94,53 +95,120 @@ const works = [
   }
 ]
 
-function SeedObject({ growing = false }: { growing?: boolean }) {
-  const group = useRef<Group>(null)
-  const core = useRef<Mesh>(null)
-  useFrame((state, delta) => {
-    if (group.current) {
-      const easedGrowth = growing ? Math.min(1, Math.max(0.06, 1 - Math.pow(1 - Math.min(1, state.clock.elapsedTime / 3.8), 3))) : 1
-      group.current.scale.setScalar(growing ? easedGrowth : 1)
-      group.current.rotation.y += delta * 0.18
-      group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.24) * 0.13
-    }
-    if (core.current) core.current.rotation.z -= delta * 0.12
+type Point3 = [number, number, number]
+
+function GrowingSegment({ start, end, from, to, radius, color, growing }: {
+  start: Point3
+  end: Point3
+  from: number
+  to: number
+  radius: number
+  color: string
+  growing: boolean
+}) {
+  const mesh = useRef<Mesh>(null)
+  const a = new Vector3(...start)
+  const b = new Vector3(...end)
+  const direction = b.clone().sub(a)
+  const length = direction.length()
+  const midpoint = a.clone().addScaledVector(direction, 0.5)
+  useFrame((state) => {
+    if (!mesh.current) return
+    const progress = growing ? Math.min(1, Math.max(0, (state.clock.elapsedTime - from) / (to - from))) : 1
+    mesh.current.visible = progress > 0.001
+    mesh.current.position.copy(a).addScaledVector(direction, progress * 0.5)
+    mesh.current.scale.set(1, Math.max(0.001, length * progress), 1)
+    mesh.current.quaternion.setFromUnitVectors(new Vector3(0, 1, 0), direction.clone().normalize())
   })
   return (
-    <group ref={group} rotation={[0.2, 0.1, -0.18]}>
-      <Float speed={1.1} rotationIntensity={0.18} floatIntensity={0.35}>
-        <mesh ref={core} scale={[0.82, 1.18, 0.72]}>
-          <icosahedronGeometry args={[1, 5]} />
-          <meshStandardMaterial color="#b3a16d" roughness={0.28} metalness={0.48} />
-        </mesh>
-        <mesh scale={[0.86, 1.22, 0.76]}>
-          <icosahedronGeometry args={[1, 4]} />
-          <meshPhysicalMaterial color="#d7c99b" roughness={0.32} metalness={0.24} transparent opacity={0.18} transmission={0.22} thickness={0.35} />
-        </mesh>
-        <mesh position={[0, -1.32, 0]} scale={[0.035, 0.72, 0.035]} rotation={[0.1, 0, -0.15]}>
-          <cylinderGeometry args={[0.035, 0.008, 1, 8]} />
-          <meshStandardMaterial color="#718b68" roughness={0.55} />
-        </mesh>
-        <mesh position={[-0.28, -1.13, 0.02]} rotation={[0, 0, -0.65]} scale={[0.48, 0.13, 0.08]}>
-          <sphereGeometry args={[1, 24, 16]} />
-          <meshStandardMaterial color="#8fa67c" roughness={0.5} />
-        </mesh>
-      </Float>
+    <mesh ref={mesh} position={midpoint.toArray() as Point3}>
+      <cylinderGeometry args={[radius * 0.72, radius, 1, 9]} />
+      <meshStandardMaterial color={color} roughness={0.72} />
+    </mesh>
+  )
+}
+
+function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
+  position: Point3
+  rotation: Point3
+  from: number
+  growing: boolean
+  size?: number
+}) {
+  const mesh = useRef<Mesh>(null)
+  useFrame((state) => {
+    if (!mesh.current) return
+    const progress = growing ? Math.min(1, Math.max(0, (state.clock.elapsedTime - from) / 0.55)) : 1
+    const eased = 1 - Math.pow(1 - progress, 3)
+    mesh.current.scale.set(0.001 + 0.39 * size * eased, 0.001 + 0.13 * size * eased, 0.001 + 0.055 * size * eased)
+    mesh.current.rotation.z = rotation[2] + Math.sin(state.clock.elapsedTime * 1.1 + from) * 0.025 * progress
+  })
+  return (
+    <mesh ref={mesh} position={position} rotation={rotation} scale={[0.001, 0.001, 0.001]}>
+      <sphereGeometry args={[1, 24, 16]} />
+      <meshStandardMaterial color="#6f9668" roughness={0.52} />
+    </mesh>
+  )
+}
+
+function PlantObject({ growing = false }: { growing?: boolean }) {
+  const group = useRef<Group>(null)
+  const seed = useRef<Mesh>(null)
+  useFrame((state) => {
+    if (group.current) {
+      group.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.45) * 0.018
+      group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.22) * 0.08
+    }
+    if (seed.current) {
+      const progress = growing ? Math.min(1, state.clock.elapsedTime / 2.2) : 1
+      seed.current.scale.set(0.15 * (1 - progress * 0.78), 0.2 * (1 - progress * 0.78), 0.12 * (1 - progress * 0.78))
+      seed.current.visible = !growing || progress < 0.96
+    }
+  })
+  const green = "#668b60"
+  const youngGreen = "#8fae79"
+  return (
+    <group ref={group} position={[0, -0.18, 0]}>
+      <mesh ref={seed} position={[0, -0.18, 0]} scale={[0.15, 0.2, 0.12]} rotation={[0.2, 0.1, -0.2]}>
+        <sphereGeometry args={[1, 24, 16]} />
+        <meshStandardMaterial color="#b9a36e" roughness={0.42} metalness={0.08} />
+      </mesh>
+      {/* Primary and lateral roots grow down into open space; no soil plane is used. */}
+      <GrowingSegment growing={growing} start={[0, -0.16, 0]} end={[0.035, -1.22, 0.02]} from={0.55} to={1.7} radius={0.027} color="#b4b68a" />
+      <GrowingSegment growing={growing} start={[0.01, -0.55, 0.01]} end={[-0.34, -0.91, 0.025]} from={1.05} to={1.85} radius={0.014} color="#9ba77e" />
+      <GrowingSegment growing={growing} start={[0.02, -0.78, 0.015]} end={[0.28, -1.04, -0.02]} from={1.25} to={2.05} radius={0.012} color="#9ba77e" />
+      <GrowingSegment growing={growing} start={[0.02, -0.85, 0.015]} end={[-0.08, -1.28, 0.04]} from={1.45} to={2.2} radius={0.009} color="#aab18a" />
+      {/* Stem segments extend from the seed upward in sequence. */}
+      <GrowingSegment growing={growing} start={[0, -0.12, 0]} end={[0.02, 0.28, 0]} from={1.0} to={1.8} radius={0.045} color={green} />
+      <GrowingSegment growing={growing} start={[0.02, 0.28, 0]} end={[-0.02, 0.72, 0.01]} from={1.65} to={2.35} radius={0.039} color={green} />
+      <GrowingSegment growing={growing} start={[-0.02, 0.72, 0.01]} end={[0.08, 1.12, 0]} from={2.2} to={2.9} radius={0.033} color={youngGreen} />
+      <GrowingSegment growing={growing} start={[0.08, 1.12, 0]} end={[0.04, 1.42, -0.015]} from={2.8} to={3.35} radius={0.025} color={youngGreen} />
+      {/* Small branches are separate growing segments. */}
+      <GrowingSegment growing={growing} start={[0.0, 0.48, 0]} end={[-0.42, 0.72, 0.02]} from={2.15} to={2.95} radius={0.023} color={green} />
+      <GrowingSegment growing={growing} start={[0.02, 0.88, 0]} end={[0.43, 1.05, 0.01]} from={2.75} to={3.45} radius={0.021} color={green} />
+      <GrowingSegment growing={growing} start={[0.07, 1.13, 0]} end={[-0.25, 1.3, 0.01]} from={3.1} to={3.8} radius={0.018} color={youngGreen} />
+      <GrowingLeaf growing={growing} position={[-0.22, 0.56, 0.03]} rotation={[0.1, 0.1, 0.6]} from={2.0} size={0.95} />
+      <GrowingLeaf growing={growing} position={[-0.34, 0.69, 0.03]} rotation={[0.05, 0.2, 2.6]} from={2.2} size={0.8} />
+      <GrowingLeaf growing={growing} position={[0.23, 0.94, 0.02]} rotation={[0.1, 0.1, -0.55]} from={2.7} size={0.9} />
+      <GrowingLeaf growing={growing} position={[0.39, 1.03, 0.02]} rotation={[0.05, 0.2, 0.25]} from={2.9} size={0.76} />
+      <GrowingLeaf growing={growing} position={[-0.12, 1.2, 0.02]} rotation={[0.05, 0.1, 2.55]} from={3.25} size={0.82} />
+      <GrowingLeaf growing={growing} position={[0.1, 1.35, 0]} rotation={[0.1, 0.1, -0.7]} from={3.55} size={0.95} />
+      <GrowingLeaf growing={growing} position={[0.04, 1.46, 0]} rotation={[0.05, 0.1, 0.15]} from={3.75} size={0.75} />
     </group>
   )
 }
 
 function SeedScene({ growing = false }: { growing?: boolean }) {
   return (
-    <Canvas camera={{ position: [0, 0, 5.4], fov: 38 }} dpr={[1, 1.6]} gl={{ alpha: true, antialias: true }}>
-      <ambientLight intensity={1.5} />
-      <directionalLight position={[4, 4, 3]} intensity={3.2} color="#fff0c9" />
-      <pointLight position={[-3, -1, 2]} intensity={2} color="#759c79" />
+    <Canvas camera={{ position: [0, 0.12, growing ? 6.2 : 5.4], fov: growing ? 34 : 38 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }}>
+      <ambientLight intensity={1.25} />
+      <directionalLight position={[4, 4, 3]} intensity={2.6} color="#fff0c9" />
+      <pointLight position={[-3, -1, 2]} intensity={1.6} color="#759c79" />
       <Suspense fallback={null}>
-        <SeedObject growing={growing} />
-        <Sparkles count={55} scale={5.4} size={1.7} speed={0.22} color="#d7c99b" opacity={0.55} />
+        <PlantObject growing={growing} />
+        {growing && <Sparkles count={14} scale={4.5} size={1.1} speed={0.12} color="#d7c99b" opacity={0.22} />}
       </Suspense>
-      <OrbitControls enablePan={false} minDistance={4.1} maxDistance={7} minPolarAngle={Math.PI * 0.28} maxPolarAngle={Math.PI * 0.72} rotateSpeed={0.65} />
+      {!growing && <OrbitControls enablePan={false} minDistance={4.1} maxDistance={7} minPolarAngle={Math.PI * 0.28} maxPolarAngle={Math.PI * 0.72} rotateSpeed={0.45} />}
     </Canvas>
   )
 }
@@ -156,22 +224,28 @@ export default function App() {
   const [intro, setIntro] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const t = copy[language]
+  const [introLeaving, setIntroLeaving] = useState(false)
   useEffect(() => {
     if (!intro) return
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    const timer = window.setTimeout(() => {
+    const fadeTimer = window.setTimeout(() => setIntroLeaving(true), 5150)
+    const finishTimer = window.setTimeout(() => {
       setIntro(false)
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-    }, 5400)
+    }, 6000)
     return () => {
-      window.clearTimeout(timer)
+      window.clearTimeout(fadeTimer)
+      window.clearTimeout(finishTimer)
       document.body.style.overflow = previousOverflow
     }
   }, [intro])
   const enterSite = () => {
-    setIntro(false)
-    window.setTimeout(() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }), 80)
+    setIntroLeaving(true)
+    window.setTimeout(() => {
+      setIntro(false)
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+    }, 650)
   }
   const goTo = (id: string) => {
     setMenuOpen(false)
@@ -180,21 +254,13 @@ export default function App() {
 
   return (
     <main>
-      {intro && <section className="intro-screen cinematic-intro" aria-label="Portfolio introduction">
+      {intro && <section className={introLeaving ? "intro-screen cinematic-intro intro-leaving" : "intro-screen cinematic-intro"} aria-label="Portfolio introduction">
         <div className="cinematic-grain" />
-        <div className="intro-top"><span>DF / ACADEMIC PORTFOLIO</span><span>AN INTERACTIVE JOURNEY</span></div>
-        <div className="cinematic-orbit cinematic-orbit-a" />
-        <div className="cinematic-orbit cinematic-orbit-b" />
         <div className="cinematic-seed"><SeedScene growing /></div>
         <div className="cinematic-content">
-          <span className="cinematic-kicker"><span className="eyebrow-dot" /> A JOURNEY INTO AGRICULTURAL SCIENCE</span>
-          <div className="cinematic-monogram">D<span>F</span><i>.</i></div>
-          <p className="cinematic-name">DEWI FATMAWATY SABIKU</p>
-          <h1>{language === 'id' ? <>Ilmu tumbuh<br /><em>dari rasa ingin tahu.</em></> : <>Where knowledge grows,<br /><em>curiosity takes root.</em></>}</h1>
-          <p className="cinematic-description">{language === 'id' ? 'Sebuah perjalanan melalui riset, benih, dan kontribusi bagi pertanian.' : 'A journey through research, seeds, and contributions to agriculture.'}</p><div className="growth-caption"><span className="growth-dot" /> {language === 'id' ? 'SEBUAH GAGASAN MULAI TUMBUH' : 'AN IDEA BEGINS TO GROW'}<span className="growth-track"><i /></span></div>
-          <button className="cinematic-enter" onClick={enterSite}>{language === 'id' ? 'Masuki pengalaman' : 'Enter experience'} <ArrowRight size={17} /></button>
+          <p className="cinematic-name">Dewi Fatmawaty Sabiku</p>
+          <p className="cinematic-slogan">Growing knowledge, nurturing life.</p>
         </div>
-        <div className="intro-bottom"><span>AGRICULTURE <i>·</i> SCIENCE <i>·</i> PEOPLE</span><button className="text-button" onClick={enterSite}>{t.skip}<ArrowDown size={14} /></button></div>
       </section>}
 
       <header className="site-header">
