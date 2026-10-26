@@ -1,9 +1,9 @@
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, OrbitControls, Sparkles } from '@react-three/drei'
+import { OrbitControls, Sparkles } from '@react-three/drei'
 import { Vector3 } from 'three'
 import type { Group, Mesh } from 'three'
-import { ArrowDown, ArrowRight, ArrowUpRight, BookOpen, Globe2, Leaf, Menu, Microscope, Sprout, X } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, BookOpen, Globe2, Leaf, Menu, Microscope, Sprout, X } from 'lucide-react'
 
 type Language = 'id' | 'en'
 
