@@ -56,3 +56,29 @@
 @media(prefers-reduced-motion:reduce){
   .cinematic-intro,.cinematic-intro.intro-leaving{transition:none}
 }
+
+
+/* Expanded academic profile and contact footer */
+.profile-facts-expanded{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 34px;margin-top:34px}
+.profile-facts-expanded>div{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding-top:15px;border-top:1px solid #cbd0c0}
+.profile-facts-expanded>div>span,.contact-grid>div>span,.contact-source>span{font-size:9px;letter-spacing:.14em;color:#788476;text-transform:uppercase}
+.profile-facts-expanded strong{font-size:15px;line-height:1.55;font-weight:500;color:#263b2d}
+.profile-facts-expanded a,.contact-grid a,.contact-source a{font-size:11px;color:#6b7f55;text-decoration:none;border-bottom:1px solid #c3cdb8;padding-bottom:3px}
+.profile-facts-expanded a:hover,.contact-grid a:hover,.contact-source a:hover{color:#263b2d;border-color:#263b2d}
+.contact-section{padding:78px clamp(22px,8vw,112px) 58px;background:#e9eadf;color:#263b2d;border-top:1px solid #d4d8ca}
+.contact-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:36px}
+.contact-heading h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(30px,4vw,48px);line-height:1.1;margin:14px 0 0}
+.contact-heading>p{max-width:300px;color:#687465;font-size:12px;line-height:1.8;margin:0}
+.contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #cbd0c0;border-left:1px solid #cbd0c0}
+.contact-grid>div{min-height:88px;padding:17px 20px;display:flex;flex-direction:column;gap:12px;border-right:1px solid #cbd0c0;border-bottom:1px solid #cbd0c0}
+.contact-grid>div>strong{font-size:13px;font-weight:500;color:#344c37}
+.contact-source{display:flex;align-items:center;gap:18px;margin-top:25px;font-size:11px}
+.contact-source a{font-size:11px}
+@media(max-width:680px){
+ .profile-facts-expanded{grid-template-columns:1fr;gap:20px}
+ .contact-section{padding:54px 22px 40px}
+ .contact-heading{align-items:flex-start;flex-direction:column;gap:14px}
+ .contact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .contact-grid>div{padding:14px;min-height:80px}
+ .contact-source{align-items:flex-start;flex-direction:column;gap:10px}
+}
