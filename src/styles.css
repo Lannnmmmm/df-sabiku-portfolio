@@ -105,3 +105,38 @@
 .contact-strip-list a{color:#d5d9c8;border-bottom:1px solid #65765c;padding-bottom:1px;width:max-content;max-width:100%}
 .contact-strip-list a:hover{color:var(--gold)}
 @media(max-width:680px){.contact-strip{padding:18px 22px}.contact-strip-list>div{grid-template-columns:125px 10px minmax(0,1fr);gap:6px}}
+
+
+/* Quiet motion layer: atmospheric light, soft depth, and accessible reveals. */
+.hero-backdrop::after{content:"";position:absolute;inset:-18%;background:radial-gradient(ellipse at 70% 45%,#b8c88a12,transparent 34%),radial-gradient(ellipse at 26% 78%,#c7b57c0b,transparent 32%);animation:ambient-drift 18s ease-in-out infinite alternate;will-change:transform}
+.hero-art-ring{animation:ring-drift 26s ease-in-out infinite alternate}
+.ring-b{animation-delay:-8s}
+.cinematic-orbit{animation:orbit-breathe 22s ease-in-out infinite alternate}
+.cinematic-orbit-b{animation-delay:-11s}
+.eyebrow-dot{animation:soft-glow 3.8s ease-in-out infinite}
+.work-visual::before,.work-visual::after{transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .5s}
+.work-card:hover .work-visual::before{transform:rotate(-12deg) scale(1.1,.62)}
+.work-card:hover .work-visual::after{transform:rotate(34deg) scale(1.08)}
+.work-visual>svg{transition:transform .5s ease}
+.work-card:hover .work-visual>svg{transform:translateY(-3px) scale(1.06)}
+.work-content a svg,.feature-link>svg,.line-button svg{transition:transform .25s ease}
+.work-content a:hover svg,.feature-link:hover>svg{transform:translate(3px,-2px)}
+.line-button:hover svg{transform:translateY(3px)}
+.feature-link{transition:color .25s,border-color .25s,padding .25s}
+.feature-link:hover{color:#71845a;border-color:#a9b69b;padding-left:5px}
+.profile-facts-expanded a{display:inline-block;margin-top:9px;color:#536c4d;font-size:10px;border-bottom:1px solid #c4cdb8;padding-bottom:3px;transition:color .2s,border-color .2s}
+.profile-facts-expanded a:hover{color:#9a8147;border-color:#b7a16d}
+.main-nav button{position:relative}
+.main-nav button::after{content:"";position:absolute;left:0;right:100%;bottom:4px;height:1px;background:var(--gold);transition:right .25s ease}
+.main-nav button:hover::after{right:0}
+.language-toggle{transition:border-color .2s,color .2s,background .2s}
+.language-toggle:hover{border-color:#c7b57c66;background:#c7b57c0a}
+.reveal-on-scroll:not(.is-visible){opacity:0;transform:translateY(18px)}
+.reveal-on-scroll{transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
+@keyframes ambient-drift{0%{transform:translate3d(-1.5%,0,0) scale(1)}100%{transform:translate3d(1.5%,-1%,0) scale(1.04)}}
+@keyframes ring-drift{0%{transform:rotate(-24deg) scaleY(.6) translateY(0)}100%{transform:rotate(-20deg) scaleY(.62) translateY(-7px)}}
+@keyframes orbit-breathe{0%{translate:-50% -50%;scale:1;opacity:.72}100%{translate:-50% -50%;scale:1.025;opacity:1}}
+@keyframes soft-glow{0%,100%{box-shadow:0 0 8px #c7b57c55}50%{box-shadow:0 0 16px #c7b57c99}}
+@media(max-width:680px){.hero-backdrop::after{animation-duration:24s}.hero-art-ring{animation-duration:30s}.reveal-on-scroll:not(.is-visible){transform:translateY(12px)}}
+@media(prefers-reduced-motion:reduce){.hero-backdrop::after,.hero-art-ring,.cinematic-orbit,.eyebrow-dot{animation:none!important}.reveal-on-scroll,.work-visual::before,.work-visual::after,.work-visual>svg,.work-content a svg,.feature-link>svg,.line-button svg{transition:none!important}.reveal-on-scroll:not(.is-visible){opacity:1;transform:none}}
