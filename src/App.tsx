@@ -18,7 +18,7 @@ const copy = {
     scroll: 'Gulir untuk menjelajah',
     profileLabel: '01 / PROFIL AKADEMIK',
     profileTitle: 'Berangkat dari rasa ingin tahu.',
-    profileBody: 'Ruang untuk mengenal perjalanan akademik, kompetensi, dan minat penelitian Dewi Fatmawaty Sabiku. Informasi profil akan terus dilengkapi berdasarkan sumber yang terverifikasi.',
+    profileBody: 'Dewi Fatmawaty Sabiku, S.P., M.Si. adalah akademisi yang tercatat berkontribusi dalam penelitian pertanian dan kegiatan pengabdian masyarakat di Politeknik Negeri Jember. Rekam publiknya mencakup penelitian teknologi benih, budidaya tanaman, dan pemberdayaan masyarakat berbasis pertanian.',
     researchLabel: '02 / PENELITIAN & PUBLIKASI',
     researchTitle: 'Pertanyaan ilmiah. Dampak nyata.',
     researchBody: 'Jelajahi rekam jejak riset dan karya ilmiah yang tersedia secara publik, dengan tautan ke sumber aslinya.',
@@ -27,7 +27,26 @@ const copy = {
     workBody: 'Dokumentasi kegiatan akademik dan pengabdian yang menghubungkan pengetahuan pertanian dengan kebutuhan masyarakat.',
     source: 'Buka sumber',
     footer: 'Portofolio akademik yang berkembang seiring data terverifikasi.',
-    note: 'Konten awal bersumber dari rekaman publik. Detail dan dokumentasi tambahan akan diperbarui setelah verifikasi.'
+    note: 'Konten awal bersumber dari rekaman publik. Detail dan dokumentasi tambahan akan diperbarui setelah verifikasi.',
+    educationLabel: 'PENDIDIKAN',
+    educationValue: 'S1 Agroteknologi · Universitas Negeri Gorontalo',
+    degreeLabel: 'GELAR AKADEMIK',
+    degreeValue: 'S.P., M.Si.',
+    affiliationLabel: 'AFILIASI PUBLIK',
+    affiliationValue: 'Politeknik Negeri Jember',
+    researchFocusLabel: 'BIDANG YANG TERLIHAT DI REKAM PUBLIK',
+    researchFocusValue: 'Teknologi benih · Budidaya tanaman · Pengabdian pertanian',
+    contactTitle: 'Terhubung & berkolaborasi',
+    contactBody: 'Saluran kontak pribadi akan ditambahkan setelah dikonfirmasi.',
+    emailLabel: 'Email',
+    scholarLabel: 'Google Scholar',
+    orcidLabel: 'ORCID',
+    facebookLabel: 'Facebook',
+    linkedinLabel: 'LinkedIn',
+    instagramLabel: 'Instagram',
+    contactSourceLabel: 'SUMBER RESMI',
+    contactSourceValue: 'Profil dan karya publik',
+    copyrightLabel: '© Dewi Fatmawaty Sabiku · Academic Portfolio'
   },
   en: {
     nav: ['Profile', 'Research', 'Contributions'],
@@ -39,7 +58,7 @@ const copy = {
     scroll: 'Scroll to explore',
     profileLabel: '01 / ACADEMIC PROFILE',
     profileTitle: 'Rooted in curiosity.',
-    profileBody: 'Explore the academic journey, expertise, and research interests of Dewi Fatmawaty Sabiku. Profile details will be expanded using verified sources.',
+    profileBody: 'Dewi Fatmawaty Sabiku, S.P., M.Si. is an academic recorded as contributing to agricultural research and community engagement at Politeknik Negeri Jember. Her public record includes seed technology, crop cultivation, and agriculture-based community initiatives.',
     researchLabel: '02 / RESEARCH & PUBLICATIONS',
     researchTitle: 'Scientific questions. Real-world impact.',
     researchBody: 'Explore publicly available research and scholarly works, with links to their original sources.',
@@ -48,7 +67,26 @@ const copy = {
     workBody: 'A record of academic activities and community engagement connecting agricultural knowledge with real needs.',
     source: 'Open source',
     footer: 'An academic portfolio that grows with verified evidence.',
-    note: 'Initial content is based on public records. Additional details and documentation will be added after verification.'
+    note: 'Initial content is based on public records. Additional details and documentation will be added after verification.',
+    educationLabel: 'EDUCATION',
+    educationValue: 'B.Sc. in Agrotechnology · Universitas Negeri Gorontalo',
+    degreeLabel: 'ACADEMIC DEGREES',
+    degreeValue: 'S.P., M.Si.',
+    affiliationLabel: 'PUBLIC AFFILIATION',
+    affiliationValue: 'Politeknik Negeri Jember',
+    researchFocusLabel: 'AREAS SHOWN IN PUBLIC RECORDS',
+    researchFocusValue: 'Seed technology · Crop cultivation · Agricultural outreach',
+    contactTitle: 'Connect & collaborate',
+    contactBody: 'Personal contact channels will be added once confirmed.',
+    emailLabel: 'Email',
+    scholarLabel: 'Google Scholar',
+    orcidLabel: 'ORCID',
+    facebookLabel: 'Facebook',
+    linkedinLabel: 'LinkedIn',
+    instagramLabel: 'Instagram',
+    contactSourceLabel: 'OFFICIAL SOURCES',
+    contactSourceValue: 'Profile & public works',
+    copyrightLabel: '© Dewi Fatmawaty Sabiku · Academic Portfolio'
   }
 }
 
@@ -292,7 +330,7 @@ export default function App() {
 
       <section className="profile-section content-section" id="profile">
         <div className="section-kicker">{t.profileLabel}</div>
-        <div className="profile-layout"><div className="section-heading"><h2>{t.profileTitle}</h2><span className="heading-rule" /></div><div className="profile-text"><p>{t.profileBody}</p><div className="profile-facts"><div><span>ACADEMIC FOCUS</span><strong>Seeds & Plant Science</strong></div><div><span>APPROACH</span><strong>Research · Education · Outreach</strong></div></div></div></div>
+        <div className="profile-layout"><div className="section-heading"><h2>{t.profileTitle}</h2><span className="heading-rule" /></div><div className="profile-text"><p>{t.profileBody}</p><div className="profile-facts profile-facts-expanded"><div><span>{t.educationLabel}</span><strong>{t.educationValue}</strong><a href="https://repository.ung.ac.id/skripsi/show/613411025/pemberian-naa-dan-bap-pada-kultur-embrio-aren-arenga-pinnata-wurmb-merr-secara-in-vitro.html" target="_blank" rel="noreferrer">Lihat rekam akademik ↗</a></div><div><span>{t.degreeLabel}</span><strong>{t.degreeValue}</strong></div><div><span>{t.affiliationLabel}</span><strong>{t.affiliationValue}</strong><a href="https://polije.ac.id/dosen-polije-berdayakan-petani-klungkung-limbah-kulit-kopi-jadi-pupuk-organik-cair/" target="_blank" rel="noreferrer">Lihat sumber institusi ↗</a></div><div><span>{t.researchFocusLabel}</span><strong>{t.researchFocusValue}</strong></div></div></div></div>
       </section>
 
       <section className="research-section content-section" id="research">
@@ -312,7 +350,7 @@ export default function App() {
         <div className="contribution-layout"><h2>{t.workTitle}</h2><div><p>{t.workBody}</p><a className="feature-link" href={works[3].href} target="_blank" rel="noreferrer"><span><Leaf size={18} /> {language === 'id' ? works[3].title : works[3].titleEn}</span><ArrowUpRight size={18} /></a><p className="source-note">{t.note}</p></div></div>
       </section>
 
-      <footer className="site-footer"><span>DF<span className="gold-dot">.</span> / ACADEMIC PORTFOLIO</span><span>{t.footer}</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>BACK TO TOP ↑</button></footer>
+      <section className="contact-section" id="contact"><div className="contact-heading"><div><div className="section-kicker">04 / CONTACT</div><h2>{t.contactTitle}</h2></div><p>{t.contactBody}</p></div><div className="contact-grid"><div><span>{t.emailLabel}</span><strong>-</strong></div><div><span>{t.scholarLabel}</span><strong><a href="https://sinta.kemdiktisaintek.go.id/authors/profile/6086921/?view=books" target="_blank" rel="noreferrer">SINTA / publikasi ↗</a></strong></div><div><span>{t.orcidLabel}</span><strong>-</strong></div><div><span>{t.facebookLabel}</span><strong>-</strong></div><div><span>{t.linkedinLabel}</span><strong>-</strong></div><div><span>{t.instagramLabel}</span><strong>-</strong></div></div><div className="contact-source"><span>{t.contactSourceLabel}</span><a href="https://polije.ac.id/dosen-polije-berdayakan-petani-klungkung-limbah-kulit-kopi-jadi-pupuk-organik-cair/" target="_blank" rel="noreferrer">{t.contactSourceValue} ↗</a></div></section><footer className="site-footer"><span>DF<span className="gold-dot">.</span> / ACADEMIC PORTFOLIO</span><span>{t.copyrightLabel}</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>BACK TO TOP ↑</button></footer>
     </main>
   )
 }
