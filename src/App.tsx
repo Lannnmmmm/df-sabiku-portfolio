@@ -1,4 +1,4 @@
-import { Suspense, useLayoutEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, OrbitControls, Sparkles } from '@react-three/drei'
 import type { Group, Mesh } from 'three'
@@ -94,11 +94,14 @@ const works = [
   }
 ]
 
-function SeedObject() {
+function SeedObject({ growing = false }: { growing?: boolean }) {
   const group = useRef<Group>(null)
   const core = useRef<Mesh>(null)
+  const growth = useRef(0)
   useFrame((state, delta) => {
     if (group.current) {
+      const easedGrowth = growing ? Math.min(1, Math.max(0.06, 1 - Math.pow(1 - Math.min(1, state.clock.elapsedTime / 3.8), 3))) : 1
+      group.current.scale.setScalar(growing ? easedGrowth : 1)
       group.current.rotation.y += delta * 0.18
       group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.24) * 0.13
     }
@@ -128,14 +131,14 @@ function SeedObject() {
   )
 }
 
-function SeedScene() {
+function SeedScene({ growing = false }: { growing?: boolean }) {
   return (
     <Canvas camera={{ position: [0, 0, 5.4], fov: 38 }} dpr={[1, 1.6]} gl={{ alpha: true, antialias: true }}>
       <ambientLight intensity={1.5} />
       <directionalLight position={[4, 4, 3]} intensity={3.2} color="#fff0c9" />
       <pointLight position={[-3, -1, 2]} intensity={2} color="#759c79" />
       <Suspense fallback={null}>
-        <SeedObject />
+        <SeedObject growing={growing} />
         <Sparkles count={55} scale={5.4} size={1.7} speed={0.22} color="#d7c99b" opacity={0.55} />
       </Suspense>
       <OrbitControls enablePan={false} minDistance={4.1} maxDistance={7} minPolarAngle={Math.PI * 0.28} maxPolarAngle={Math.PI * 0.72} rotateSpeed={0.65} />
@@ -154,6 +157,14 @@ export default function App() {
   const [intro, setIntro] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const t = copy[language]
+  useEffect(() => {
+    if (!intro) return
+    const timer = window.setTimeout(() => {
+      setIntro(false)
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+    }, 5400)
+    return () => window.clearTimeout(timer)
+  }, [intro])
   const enterSite = () => {
     setIntro(false)
     window.setTimeout(() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }), 80)
@@ -170,13 +181,13 @@ export default function App() {
         <div className="intro-top"><span>DF / ACADEMIC PORTFOLIO</span><span>AN INTERACTIVE JOURNEY</span></div>
         <div className="cinematic-orbit cinematic-orbit-a" />
         <div className="cinematic-orbit cinematic-orbit-b" />
-        <div className="cinematic-seed"><SeedScene /></div>
+        <div className="cinematic-seed"><SeedScene growing /></div>
         <div className="cinematic-content">
           <span className="cinematic-kicker"><span className="eyebrow-dot" /> A JOURNEY INTO AGRICULTURAL SCIENCE</span>
           <div className="cinematic-monogram">D<span>F</span><i>.</i></div>
           <p className="cinematic-name">DEWI FATMAWATY SABIKU</p>
           <h1>{language === 'id' ? <>Ilmu tumbuh<br /><em>dari rasa ingin tahu.</em></> : <>Where knowledge grows,<br /><em>curiosity takes root.</em></>}</h1>
-          <p className="cinematic-description">{language === 'id' ? 'Sebuah perjalanan melalui riset, benih, dan kontribusi bagi pertanian.' : 'A journey through research, seeds, and contributions to agriculture.'}</p>
+          <p className="cinematic-description">{language === 'id' ? 'Sebuah perjalanan melalui riset, benih, dan kontribusi bagi pertanian.' : 'A journey through research, seeds, and contributions to agriculture.'}</p><div className="growth-caption"><span className="growth-dot" /> {language === 'id' ? 'SEBUAH GAGASAN MULAI TUMBUH' : 'AN IDEA BEGINS TO GROW'}<span className="growth-track"><i /></span></div>
           <button className="cinematic-enter" onClick={enterSite}>{language === 'id' ? 'Masuki pengalaman' : 'Enter experience'} <ArrowRight size={17} /></button>
         </div>
         <div className="intro-bottom"><span>AGRICULTURE <i>·</i> SCIENCE <i>·</i> PEOPLE</span><button className="text-button" onClick={enterSite}>{t.skip}<ArrowDown size={14} /></button></div>
