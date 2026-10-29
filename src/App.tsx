@@ -9,7 +9,7 @@ type Language = 'id' | 'en'
 
 const copy = {
   id: {
-    nav: ['Profil', 'Penelitian', 'Kinerja'],
+    nav: ['Profil', 'Penelitian', 'Dokumentasi'],
     eyebrow: 'AKADEMIK · RISET · KONTRIBUSI',
     title: <>Menumbuhkan pengetahuan,<br /><em>memajukan pertanian.</em></>,
     intro: 'Perjalanan akademik, eksplorasi ilmiah, dan kontribusi untuk pertanian yang berkelanjutan.',
@@ -49,7 +49,7 @@ const copy = {
     copyrightLabel: '© Dewi Fatmawaty Sabiku · Academic Portfolio'
   },
   en: {
-    nav: ['Profile', 'Research', 'Contributions'],
+    nav: ['Profile', 'Research', 'Documentation'],
     eyebrow: 'ACADEMIA · RESEARCH · IMPACT',
     title: <>Growing knowledge,<br /><em>advancing agriculture.</em></>,
     intro: 'An academic journey, scientific exploration, and contributions toward sustainable agriculture.',
@@ -337,15 +337,15 @@ export default function App() {
       <header className="site-header">
         <button className="wordmark" onClick={() => goTo('home')} aria-label="Go to home"><span className="wordmark-symbol">D<span>.</span></span><span className="wordmark-text">DEWI FATMAWATY SABIKU<small>ACADEMIC PORTFOLIO</small></span></button>
         <nav className={menuOpen ? 'main-nav open' : 'main-nav'}>
-          <button onClick={() => goTo('profile')}>{t.nav[0]}</button><button onClick={() => goTo('research')}>{t.nav[1]}</button><button onClick={() => goTo('contributions')}>{t.nav[2]}</button>
+          <button onClick={() => goTo('profile')}>{t.nav[0]}</button><button onClick={() => goTo('research')}>{t.nav[1]}</button><button onClick={() => goTo('growth')}>{t.nav[2]}</button>
         </nav>
         <div className="header-actions"><button className="language-toggle" onClick={() => setLanguage(language === 'id' ? 'en' : 'id')} aria-label="Switch language"><Globe2 size={15} /> {language.toUpperCase()}</button><button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button></div>
       </header>
 
       <section className="hero-section" id="home">
         <div className="hero-backdrop" />
-        <div className="hero-copy"><span className="eyebrow"><span className="eyebrow-dot" /> {t.eyebrow}</span><h2>{t.title}</h2><p>{t.intro}</p><button className="line-button" onClick={() => goTo('profile')}>{t.nav[0]} <ArrowDown size={16} /></button></div>
-        <div className="hero-art"><div className="hero-art-ring ring-a" /><div className="hero-art-ring ring-b" /><div className="hero-art-label label-top">BOTANICAL STUDIES <span>01—04</span></div><div className="hero-seed"><SeedScene /></div><div className="hero-art-label label-bottom"><span>FIELD NOTES</span> SEED / GROWTH / IMPACT</div></div>
+        <div className="hero-copy"><span className="hero-overline">POLITEKNIK NEGERI JEMBER <i>·</i> TEKNIK PRODUKSI BENIH</span><span className="eyebrow"><span className="eyebrow-dot" /> {t.eyebrow}</span><h2>{t.title}</h2><p>{t.intro}</p><button className="line-button" onClick={() => goTo('profile')}>{t.nav[0]} <ArrowDown size={16} /></button></div>
+        <div className="hero-art"><div className="hero-art-ring ring-a" /><div className="portrait-stage"><div className="portrait-glow"/><div className="portrait-frame"><img src="./dewi-profile.jpg" alt="Dewi Fatmawaty Sabiku" onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement?.classList.add("portrait-missing") }} /><div className="portrait-fallback"><Leaf size={42} strokeWidth={1}/><span>DEWI FATMAWATY SABIKU</span><small>PORTRAIT</small></div></div><div className="portrait-caption"><span>ACADEMIC PROFILE</span><b>Dewi Fatmawaty Sabiku, S.P., M.Si.</b></div></div><div className="hero-art-ring ring-b" /><div className="hero-art-label label-top">BOTANICAL STUDIES <span>01—04</span></div><div className="hero-seed"><SeedScene /></div><div className="hero-art-label label-bottom"><span>FIELD NOTES</span> SEED / GROWTH / IMPACT</div></div>
         <div className="hero-foot"><span>01 — 03</span><span>{t.scroll}</span><span>JAVA, INDONESIA</span></div>
       </section>
 
@@ -366,10 +366,14 @@ export default function App() {
         })}</div>
       </section>
 
+      <section className="growth-section content-section" id="growth"><div className="section-kicker">04 / GROWTH DOCUMENTATION</div><div className="growth-heading"><h2>Dari benih,<br/><em>menjadi kehidupan.</em></h2><p>Setiap tahap pertumbuhan menyimpan pertanyaan ilmiah — dari vigor benih hingga tanaman yang produktif.</p></div><div className="growth-track"><article><span>01</span><div className="growth-icon seed-icon">●</div><h3>Benih</h3><p>Mutu, viabilitas, dan vigor sebagai fondasi pertumbuhan.</p></article><article><span>02</span><div className="growth-icon sprout-icon"><Sprout size={35}/></div><h3>Perkecambahan</h3><p>Perlakuan benih dan lingkungan awal pertumbuhan.</p></article><article><span>03</span><div className="growth-icon plant-icon"><Leaf size={38}/></div><h3>Tanaman</h3><p>Teknologi budidaya untuk produktivitas berkelanjutan.</p></article></div></section>
+
       <section className="contribution-section content-section" id="contributions">
         <div className="section-kicker">{t.workLabel}</div>
         <div className="contribution-layout"><h2>{t.workTitle}</h2><div><p>{t.workBody}</p><a className="feature-link" href={works[3].href} target="_blank" rel="noreferrer"><span><Leaf size={18} /> {language === 'id' ? works[3].title : works[3].titleEn}</span><ArrowUpRight size={18} /></a><p className="source-note">{t.note}</p></div></div>
       </section>
+
+      <section className="community-section content-section" id="community"><div className="section-kicker">05 / COMMUNITY & OUTREACH</div><div className="community-panel"><div className="community-mark"><Sprout size={34}/><span>FIELD NOTES<br/>JEMBER · INDONESIA</span></div><div><h2>Ilmu yang tumbuh bersama masyarakat.</h2><p>Dokumentasi publik menunjukkan kegiatan pemberdayaan petani melalui pemanfaatan limbah kulit kopi menjadi pupuk organik cair di Desa Klungkung, Jember.</p><a href={works[3].href} target="_blank" rel="noreferrer">Baca dokumentasi institusi <ArrowUpRight size={15}/></a></div></div></section>
 
       <section className="contact-strip" id="contact"><div className="contact-strip-list"><div><span>Email</span><b>:</b><strong>—</strong></div><div><span>Google Scholar</span><b>:</b><strong>—</strong></div><div><span>ORCID</span><b>:</b><strong>—</strong></div><div><span>Facebook</span><b>:</b><strong>—</strong></div><div><span>LinkedIn</span><b>:</b><strong>—</strong></div><div><span>Instagram</span><b>:</b><strong>—</strong></div><div><span>{t.contactSourceValue}</span><b>:</b><a href="https://polije.ac.id/dosen-polije-berdayakan-petani-klungkung-limbah-kulit-kopi-jadi-pupuk-organik-cair/" target="_blank" rel="noreferrer">Profil dan karya publik ↗</a></div></div></section><footer className="site-footer"><span>DF<span className="gold-dot">.</span> / ACADEMIC PORTFOLIO</span><span>{t.copyrightLabel}</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>BACK TO TOP ↑</button></footer>
     </main>
