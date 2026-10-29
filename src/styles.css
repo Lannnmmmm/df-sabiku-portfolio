@@ -214,7 +214,7 @@
 
 
 /* Interactive botanical atmosphere */
-.hero-section{--pointer-x:0px;--pointer-y:0px;--ring-rotate-x:0deg;--ring-rotate-y:0deg;isolation:isolate}
+.hero-section{--pointer-x:0px;--pointer-y:0px;--ring-rotate-x:0deg;--ring-rotate-y:0deg;--portrait-rotate-x:0deg;--portrait-rotate-y:0deg;isolation:isolate}
 .hero-backdrop{background:radial-gradient(ellipse at 65% 40%,#294d332e,transparent 40%),radial-gradient(ellipse at 12% 5%,#b8d5a00a,transparent 35%),linear-gradient(120deg,#07160e,#0d2418 56%,#102b1b)}
 .hero-copy{position:relative}
 .hero-art{transform:translate3d(var(--pointer-x),var(--pointer-y),0);transition:transform .45s ease-out}
@@ -278,3 +278,11 @@
 @supports not (animation-timeline:view()){.growth-track:before{animation:none;transform:scaleX(1);opacity:.35}}
 @media(max-width:560px){.scroll-status{bottom:14px;right:12px;padding:8px 10px}.scroll-status span{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.reading-progress span,.scroll-status,.growth-step,.growth-step .growth-icon{transition:none;animation:none}}
+
+/* Portrait parallax: a restrained pseudo-3D look-at response */
+.portrait-frame{transform:perspective(900px) rotateX(var(--portrait-rotate-x)) rotateY(var(--portrait-rotate-y));transform-style:preserve-3d;transition:transform .18s ease-out,box-shadow .3s ease}
+.portrait-frame img{transform:translate3d(var(--pointer-x),var(--pointer-y),0) scale(1.035) translateZ(10px)}
+.portrait-caption{transform:translateZ(18px)}
+.portrait-stage:hover .portrait-frame{box-shadow:0 38px 90px #0004,0 0 0 1px #b9d9a51c}
+@media(max-width:800px){.portrait-frame{transform:none}.portrait-frame img{transform:none}.portrait-caption{transform:none}}
+@media(prefers-reduced-motion:reduce){.portrait-frame{transform:none;transition:none}.portrait-frame img{transform:none}}
