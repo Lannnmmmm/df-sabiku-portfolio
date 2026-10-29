@@ -283,6 +283,7 @@ export default function App() {
   const t = copy[language]
   const [introLeaving, setIntroLeaving] = useState(false)
   const [introProgress, setIntroProgress] = useState(0)
+  const [pageProgress, setPageProgress] = useState(0)
   useEffect(() => {
     if (!intro) return
     const previousOverflow = document.body.style.overflow
@@ -300,6 +301,26 @@ export default function App() {
       document.body.style.overflow = previousOverflow
     }
   }, [intro])
+  useEffect(() => {
+    let ticking = false
+    const updateProgress = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight
+        setPageProgress(scrollable > 0 ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100)) : 0)
+        ticking = false
+      })
+    }
+    updateProgress()
+    window.addEventListener('scroll', updateProgress, { passive: true })
+    window.addEventListener('resize', updateProgress)
+    return () => {
+      window.removeEventListener('scroll', updateProgress)
+      window.removeEventListener('resize', updateProgress)
+    }
+  }, [])
+
   useEffect(() => {
     const targets = document.querySelectorAll<HTMLElement>('.content-section, .contact-strip, .site-footer')
     if (!('IntersectionObserver' in window)) {
@@ -328,6 +349,8 @@ export default function App() {
 
   return (
     <main>
+      <div className="reading-progress" aria-hidden="true"><span style={{ width: `${pageProgress}%` }} /></div>
+      <div className={pageProgress > 12 && !intro ? "scroll-status scroll-status-visible" : "scroll-status"} aria-live="off"><span>PORTFOLIO JOURNEY</span><b>{Math.round(pageProgress).toString().padStart(2, '0')}%</b></div>
       {intro && <section className={introLeaving ? "intro-screen cinematic-intro intro-leaving" : "intro-screen cinematic-intro"} aria-label="Portfolio introduction">
         <div className="cinematic-grain" />
         <div className="cinematic-seed"><SeedScene growing /></div>
@@ -369,7 +392,7 @@ export default function App() {
         })}</div>
       </section>
 
-      <section className="growth-section content-section" id="growth"><div className="section-kicker">04 / GROWTH DOCUMENTATION</div><div className="growth-heading"><h2>Dari benih,<br/><em>menjadi kehidupan.</em></h2><p>Setiap tahap pertumbuhan menyimpan pertanyaan ilmiah — dari vigor benih hingga tanaman yang produktif.</p></div><div className="growth-track"><article><span>01</span><div className="growth-icon seed-icon">●</div><h3>Benih</h3><p>Mutu, viabilitas, dan vigor sebagai fondasi pertumbuhan.</p></article><article><span>02</span><div className="growth-icon sprout-icon"><Sprout size={35}/></div><h3>Perkecambahan</h3><p>Perlakuan benih dan lingkungan awal pertumbuhan.</p></article><article><span>03</span><div className="growth-icon plant-icon"><Leaf size={38}/></div><h3>Tanaman</h3><p>Teknologi budidaya untuk produktivitas berkelanjutan.</p></article></div></section>
+      <section className="growth-section content-section" id="growth"><div className="section-kicker">04 / GROWTH DOCUMENTATION</div><div className="growth-heading"><h2>Dari benih,<br/><em>menjadi kehidupan.</em></h2><p>Setiap tahap pertumbuhan menyimpan pertanyaan ilmiah — dari vigor benih hingga tanaman yang produktif.</p></div><div className="growth-track"><article className="growth-step growth-step-one"><span>01</span><div className="growth-icon seed-icon">●</div><h3>Benih</h3><p>Mutu, viabilitas, dan vigor sebagai fondasi pertumbuhan.</p></article><article className="growth-step growth-step-two"><span>02</span><div className="growth-icon sprout-icon"><Sprout size={35}/></div><h3>Perkecambahan</h3><p>Perlakuan benih dan lingkungan awal pertumbuhan.</p></article><article className="growth-step growth-step-three"><span>03</span><div className="growth-icon plant-icon"><Leaf size={38}/></div><h3>Tanaman</h3><p>Teknologi budidaya untuk produktivitas berkelanjutan.</p></article></div></section>
 
       <section className="contribution-section content-section" id="contributions">
         <div className="section-kicker">{t.workLabel}</div>
