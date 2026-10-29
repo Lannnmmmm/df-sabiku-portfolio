@@ -322,7 +322,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const targets = document.querySelectorAll<HTMLElement>('.content-section, .contact-strip, .site-footer')
+    const targets = document.querySelectorAll<HTMLElement>('.content-section, .contact-strip, .site-footer, .growth-step')
     if (!('IntersectionObserver' in window)) {
       targets.forEach((target) => target.classList.add('is-visible'))
       return
