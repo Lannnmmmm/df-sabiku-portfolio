@@ -135,7 +135,7 @@ const works = [
 
 type Point3 = [number, number, number]
 
-function GrowingSegment({ start, end, from, to, radius, color, growing }: {
+function GrowingSegment({ start, end, from, to, radius, color, growing, growthProgress }: {
   start: Point3
   end: Point3
   from: number
@@ -143,6 +143,7 @@ function GrowingSegment({ start, end, from, to, radius, color, growing }: {
   radius: number
   color: string
   growing: boolean
+  growthProgress?: number
 }) {
   const mesh = useRef<Mesh>(null)
   const a = new Vector3(...start)
@@ -152,7 +153,7 @@ function GrowingSegment({ start, end, from, to, radius, color, growing }: {
   const midpoint = a.clone().addScaledVector(direction, 0.5)
   useFrame((state) => {
     if (!mesh.current) return
-    const progress = growing ? Math.min(1, Math.max(0, (state.clock.elapsedTime - from) / (to - from))) : 1
+    const progress = growing ? Math.min(1, Math.max(0, ((growthProgress ?? Math.min(1, state.clock.elapsedTime / 4)) * 4 - from) / (to - from))) : 1
     mesh.current.visible = progress > 0.001
     mesh.current.position.copy(a).addScaledVector(direction, progress * 0.5)
     mesh.current.scale.set(1, Math.max(0.001, length * progress), 1)
@@ -171,17 +172,18 @@ leafSilhouette.moveTo(0, 0)
 leafSilhouette.bezierCurveTo(0.18, 0.28, 0.66, 0.34, 1, 0.025)
 leafSilhouette.bezierCurveTo(0.7, -0.19, 0.23, -0.17, 0, 0)
 
-function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
+function GrowingLeaf({ position, rotation, from, growing, growthProgress, size = 1 }: {
   position: Point3
   rotation: Point3
   from: number
   growing: boolean
+  growthProgress?: number
   size?: number
 }) {
   const group = useRef<Group>(null)
   useFrame((state) => {
     if (!group.current) return
-    const progress = growing ? Math.min(1, Math.max(0, (state.clock.elapsedTime - from) / 0.7)) : 1
+    const progress = growing ? Math.min(1, Math.max(0, (((growthProgress ?? Math.min(1, state.clock.elapsedTime / 4)) * 4) - from) / 0.7)) : 1
     const eased = 1 - Math.pow(1 - progress, 3)
     group.current.scale.set(0.001 + 0.52 * size * eased, 0.001 + 0.52 * size * eased, 0.001 + 0.52 * size * eased)
     group.current.rotation.z = rotation[2] + Math.sin(state.clock.elapsedTime * 0.75 + from) * 0.018 * progress
@@ -200,7 +202,7 @@ function GrowingLeaf({ position, rotation, from, growing, size = 1 }: {
   )
 }
 
-function PlantObject({ growing = false }: { growing?: boolean }) {
+function PlantObject({ growing = false, growthProgress }: { growing?: boolean; growthProgress?: number }) {
   const group = useRef<Group>(null)
   const seed = useRef<Mesh>(null)
   useFrame((state) => {
@@ -209,7 +211,7 @@ function PlantObject({ growing = false }: { growing?: boolean }) {
       group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.22) * 0.08
     }
     if (seed.current) {
-      const progress = growing ? Math.min(1, state.clock.elapsedTime / 2.2) : 1
+      const progress = growing ? (growthProgress ?? Math.min(1, state.clock.elapsedTime / 2.2)) : 1
       seed.current.scale.set(0.15 * (1 - progress * 0.78), 0.2 * (1 - progress * 0.78), 0.12 * (1 - progress * 0.78))
       seed.current.visible = !growing || progress < 0.96
     }
@@ -223,7 +225,7 @@ function PlantObject({ growing = false }: { growing?: boolean }) {
         <meshStandardMaterial color="#b9a36e" roughness={0.42} metalness={0.08} />
       </mesh>
       {/* Primary and lateral roots grow down into open space; no soil plane is used. */}
-      <GrowingSegment growing={growing} start={[0, -0.16, 0]} end={[0.035, -1.28, 0.02]} from={0.55} to={1.7} radius={0.031} color="#a2aa82" />
+      <GrowingSegment growing={growing} growthProgress={growthProgress} start={[0, -0.16, 0]} end={[0.035, -1.28, 0.02]} from={0.55} to={1.7} radius={0.031} color="#a2aa82" />
       <GrowingSegment growing={growing} start={[0.01, -0.38, 0.015]} end={[-0.25, -0.69, 0.13]} from={0.8} to={1.7} radius={0.018} color="#899b75" />
       <GrowingSegment growing={growing} start={[-0.12, -0.54, 0.07]} end={[-0.48, -0.72, 0.16]} from={1.15} to={1.95} radius={0.009} color="#9ca981" />
       <GrowingSegment growing={growing} start={[-0.25, -0.69, 0.13]} end={[-0.38, -0.94, 0.2]} from={1.4} to={2.15} radius={0.006} color="#9ba77e" />
@@ -244,7 +246,7 @@ function PlantObject({ growing = false }: { growing?: boolean }) {
       <GrowingSegment growing={growing} start={[0.0, 0.48, 0]} end={[-0.42, 0.72, 0.02]} from={2.15} to={2.95} radius={0.023} color={green} />
       <GrowingSegment growing={growing} start={[0.02, 0.88, 0]} end={[0.43, 1.05, 0.01]} from={2.75} to={3.45} radius={0.021} color={green} />
       <GrowingSegment growing={growing} start={[0.07, 1.13, 0]} end={[-0.25, 1.3, 0.01]} from={3.1} to={3.8} radius={0.018} color={youngGreen} />
-      <GrowingLeaf growing={growing} position={[-0.22, 0.56, 0.03]} rotation={[0.28, 0.42, 0.6]} from={2.0} size={0.95} />
+      <GrowingLeaf growing={growing} growthProgress={growthProgress} position={[-0.22, 0.56, 0.03]} rotation={[0.28, 0.42, 0.6]} from={2.0} size={0.95} />
       <GrowingLeaf growing={growing} position={[-0.34, 0.69, 0.03]} rotation={[-0.22, -0.35, 2.6]} from={2.2} size={0.8} />
       <GrowingLeaf growing={growing} position={[0.23, 0.94, 0.02]} rotation={[0.18, -0.48, -0.55]} from={2.7} size={0.9} />
       <GrowingLeaf growing={growing} position={[0.39, 1.03, 0.02]} rotation={[-0.24, 0.36, 0.25]} from={2.9} size={0.76} />
@@ -255,14 +257,14 @@ function PlantObject({ growing = false }: { growing?: boolean }) {
   )
 }
 
-function SeedScene({ growing = false }: { growing?: boolean }) {
+function SeedScene({ growing = false, progress }: { growing?: boolean; progress?: number }) {
   return (
     <Canvas camera={{ position: [0, 0.12, growing ? 6.2 : 5.4], fov: growing ? 34 : 38 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }}>
       <ambientLight intensity={0.8} />
       <directionalLight position={[3, 4, 3]} intensity={2.0} color="#fff4d8" />
       <pointLight position={[-2, 0.5, 2]} intensity={1.15} color="#8cae80" />
       <Suspense fallback={null}>
-        <PlantObject growing={growing} />
+        <PlantObject growing={growing} growthProgress={progress} />
         {growing && <Sparkles count={14} scale={4.5} size={1.1} speed={0.12} color="#d7c99b" opacity={0.22} />}
       </Suspense>
       {!growing && <OrbitControls enablePan={false} minDistance={4.1} maxDistance={7} minPolarAngle={Math.PI * 0.28} maxPolarAngle={Math.PI * 0.72} rotateSpeed={0.45} />}
@@ -284,6 +286,7 @@ export default function App() {
   const [introLeaving, setIntroLeaving] = useState(false)
   const [introProgress, setIntroProgress] = useState(0)
   const [pageProgress, setPageProgress] = useState(0)
+  const [growthProgress, setGrowthProgress] = useState(0)
   useEffect(() => {
     if (!intro) return
     const previousOverflow = document.body.style.overflow
@@ -301,6 +304,31 @@ export default function App() {
       document.body.style.overflow = previousOverflow
     }
   }, [intro])
+  useEffect(() => {
+    let ticking = false
+    const updateGrowth = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        const section = document.getElementById('growth')
+        if (section) {
+          const rect = section.getBoundingClientRect()
+          const range = rect.height + window.innerHeight * 0.3
+          const value = (window.innerHeight * 0.72 - rect.top) / range
+          setGrowthProgress(Math.min(1, Math.max(0, value)))
+        }
+        ticking = false
+      })
+    }
+    updateGrowth()
+    window.addEventListener('scroll', updateGrowth, { passive: true })
+    window.addEventListener('resize', updateGrowth)
+    return () => {
+      window.removeEventListener('scroll', updateGrowth)
+      window.removeEventListener('resize', updateGrowth)
+    }
+  }, [])
+
   useEffect(() => {
     let ticking = false
     const updateProgress = () => {
@@ -392,7 +420,7 @@ export default function App() {
         })}</div>
       </section>
 
-      <section className="growth-section content-section" id="growth"><div className="section-kicker">04 / GROWTH DOCUMENTATION</div><div className="growth-heading"><h2>Dari benih,<br/><em>menjadi kehidupan.</em></h2><p>Setiap tahap pertumbuhan menyimpan pertanyaan ilmiah — dari vigor benih hingga tanaman yang produktif.</p></div><div className="growth-track"><article className="growth-step growth-step-one"><span>01</span><div className="growth-icon seed-icon">●</div><h3>Benih</h3><p>Mutu, viabilitas, dan vigor sebagai fondasi pertumbuhan.</p></article><article className="growth-step growth-step-two"><span>02</span><div className="growth-icon sprout-icon"><Sprout size={35}/></div><h3>Perkecambahan</h3><p>Perlakuan benih dan lingkungan awal pertumbuhan.</p></article><article className="growth-step growth-step-three"><span>03</span><div className="growth-icon plant-icon"><Leaf size={38}/></div><h3>Tanaman</h3><p>Teknologi budidaya untuk produktivitas berkelanjutan.</p></article></div></section>
+      <section className="growth-section content-section" id="growth"><div className="section-kicker">04 / GROWTH DOCUMENTATION</div><div className="growth-heading"><h2>Dari benih,<br/><em>menjadi kehidupan.</em></h2><p>Setiap tahap pertumbuhan menyimpan pertanyaan ilmiah — dari vigor benih hingga tanaman yang produktif.</p></div><div className="growth-visual"><div className="growth-visual-canvas"><SeedScene growing progress={growthProgress} /></div><div className="growth-visual-caption"><span>LIVE GROWTH STUDY</span><b>{growthProgress < 0.22 ? "01 / Benih" : growthProgress < 0.62 ? "02 / Perkecambahan" : "03 / Tanaman muda"}</b><div className="growth-visual-meter"><i style={{ width: `${Math.round(growthProgress * 100)}%` }} /></div><small>{Math.round(growthProgress * 100)}% tahapan visual</small></div></div><div className="growth-track"><article className="growth-step growth-step-one"><span>01</span><div className="growth-icon seed-icon">●</div><h3>Benih</h3><p>Mutu, viabilitas, dan vigor sebagai fondasi pertumbuhan.</p></article><article className="growth-step growth-step-two"><span>02</span><div className="growth-icon sprout-icon"><Sprout size={35}/></div><h3>Perkecambahan</h3><p>Perlakuan benih dan lingkungan awal pertumbuhan.</p></article><article className="growth-step growth-step-three"><span>03</span><div className="growth-icon plant-icon"><Leaf size={38}/></div><h3>Tanaman</h3><p>Teknologi budidaya untuk produktivitas berkelanjutan.</p></article></div></section>
 
       <section className="contribution-section content-section" id="contributions">
         <div className="section-kicker">{t.workLabel}</div>
