@@ -282,16 +282,19 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const t = copy[language]
   const [introLeaving, setIntroLeaving] = useState(false)
+  const [introProgress, setIntroProgress] = useState(0)
   useEffect(() => {
     if (!intro) return
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    const progressTimer = window.setInterval(() => setIntroProgress((value) => Math.min(100, value + 2)), 115)
     const fadeTimer = window.setTimeout(() => setIntroLeaving(true), 5150)
     const finishTimer = window.setTimeout(() => {
       setIntro(false)
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     }, 6000)
     return () => {
+      window.clearInterval(progressTimer)
       window.clearTimeout(fadeTimer)
       window.clearTimeout(finishTimer)
       document.body.style.overflow = previousOverflow
@@ -330,7 +333,7 @@ export default function App() {
         <div className="cinematic-seed"><SeedScene growing /></div>
         <div className="cinematic-content">
           <p className="cinematic-name">Dewi Fatmawaty Sabiku</p>
-          <p className="cinematic-slogan">Growing knowledge, nurturing life.</p>
+          <p className="cinematic-slogan">Growing knowledge, nurturing life.</p><div className="intro-progress"><span><i style={{ width: `${introProgress}%` }} /></span><b>{String(introProgress).padStart(2, "0")}%</b></div><button className="intro-skip" onClick={() => { setIntroLeaving(true); window.setTimeout(() => setIntro(false), 450) }}>Lewati intro <ArrowUpRight size={13}/></button>
         </div>
       </section>}
 
