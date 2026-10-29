@@ -214,7 +214,7 @@
 
 
 /* Interactive botanical atmosphere */
-.hero-section{--pointer-x:0;--pointer-y:0;isolation:isolate}
+.hero-section{--pointer-x:0px;--pointer-y:0px;--ring-rotate-x:0deg;--ring-rotate-y:0deg;isolation:isolate}
 .hero-backdrop{background:radial-gradient(ellipse at 65% 40%,#294d332e,transparent 40%),radial-gradient(ellipse at 12% 5%,#b8d5a00a,transparent 35%),linear-gradient(120deg,#07160e,#0d2418 56%,#102b1b)}
 .hero-copy{position:relative}
 .hero-art{transform:translate3d(var(--pointer-x),var(--pointer-y),0);transition:transform .45s ease-out}
@@ -246,3 +246,11 @@
 .site-header{backdrop-filter:blur(18px)}
 @media(max-width:800px){.hero-art{transform:none}.portrait-stage{transform:none}.hero-floating-note{display:none}.ambient-particles span{opacity:.12}.portrait-frame img{transform:none}}
 @media(prefers-reduced-motion:reduce){.ambient-particles span,.hero-floating-note{animation:none}.hero-art,.portrait-stage,.portrait-frame img{transition:none}}
+
+.intro-progress{display:flex;align-items:center;gap:12px;width:min(260px,70vw);margin:30px auto 0;color:#b6c9b1;font-size:9px;letter-spacing:.14em}
+.intro-progress>span{height:2px;flex:1;background:#c7dfbb24;overflow:hidden}
+.intro-progress>span i{display:block;height:100%;background:#a8d39b;box-shadow:0 0 12px #b5e8a2;transition:width .18s linear}
+.intro-progress b{font-weight:400;min-width:28px;text-align:right}
+.intro-skip{display:inline-flex;align-items:center;gap:8px;margin-top:24px;background:transparent;border:0;color:#9fb29d;font:inherit;font-size:10px;letter-spacing:.08em;cursor:pointer;transition:color .2s}
+.intro-skip:hover{color:#edf6e8}
+@media(prefers-reduced-motion:reduce){.intro-progress>span i{transition:none}}
