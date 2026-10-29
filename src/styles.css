@@ -215,17 +215,17 @@
 
 /* Interactive botanical atmosphere */
 .hero-section{--pointer-x:0;--pointer-y:0;isolation:isolate}
-.hero-backdrop{background:radial-gradient(ellipse at calc(65% + var(--pointer-x)*2%) calc(40% + var(--pointer-y)*2%),#294d332e,transparent 40%),radial-gradient(ellipse at 12% 5%,#b8d5a00a,transparent 35%),linear-gradient(120deg,#07160e,#0d2418 56%,#102b1b)}
+.hero-backdrop{background:radial-gradient(ellipse at 65% 40%,#294d332e,transparent 40%),radial-gradient(ellipse at 12% 5%,#b8d5a00a,transparent 35%),linear-gradient(120deg,#07160e,#0d2418 56%,#102b1b)}
 .hero-copy{position:relative}
-.hero-art{transform:translate3d(calc(var(--pointer-x)*-3px),calc(var(--pointer-y)*-3px),0);transition:transform .45s ease-out}
-.portrait-stage{transform:translate3d(calc(var(--pointer-x)*-8px),calc(-51% + var(--pointer-y)*-5px),0);transition:transform .22s ease-out}
-.portrait-frame img{transform:translate3d(calc(var(--pointer-x)*-5px),calc(var(--pointer-y)*-3px),0) scale(1.035);transform-origin:50% 38%;transition:transform .2s ease-out}
-.portrait-frame:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,#d8e8c512 45%,transparent 60%);transform:translateX(calc(var(--pointer-x)*8%));transition:transform .25s ease-out}
+.hero-art{transform:translate3d(var(--pointer-x),var(--pointer-y),0);transition:transform .45s ease-out}
+.portrait-stage{transform:translate3d(var(--pointer-x),calc(-51% + var(--pointer-y)),0);transition:transform .22s ease-out}
+.portrait-frame img{transform:translate3d(var(--pointer-x),var(--pointer-y),0) scale(1.035);transform-origin:50% 38%;transition:transform .2s ease-out}
+.portrait-frame:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,#d8e8c512 45%,transparent 60%);transform:translateX(var(--pointer-x));transition:transform .25s ease-out}
 .hero-art-ring{transition:transform .35s ease-out}
-.ring-a{transform:rotate(calc(var(--pointer-x)*2deg))}
-.ring-b{transform:rotate(calc(var(--pointer-y)*-2deg))}
+.ring-a{transform:rotate(var(--ring-rotate-x))}
+.ring-b{transform:rotate(var(--ring-rotate-y))}
 .ambient-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
-.ambient-particles span{position:absolute;left:calc((var(--particle-index)*37 + 4)*1%);top:calc((var(--particle-index)*29 + 7)*1%);width:calc(2px + (var(--particle-index)%3)*1px);height:calc(2px + (var(--particle-index)%3)*1px);border-radius:50%;background:#c1dfa0;opacity:.2;box-shadow:0 0 14px #c3e8a5;animation:particle-drift calc(7s + var(--particle-index)*.4s) ease-in-out infinite alternate;animation-delay:calc(var(--particle-index)*-.7s)}
+.ambient-particles span{position:absolute;border-radius:50%;background:#c1dfa0;opacity:.2;box-shadow:0 0 14px #c3e8a5;animation:particle-drift 8s ease-in-out infinite alternate}
 @keyframes particle-drift{from{transform:translate3d(0,12px,0) scale(.7);opacity:.08}to{transform:translate3d(12px,-28px,0) scale(1.4);opacity:.45}}
 .hero-floating-note{position:absolute;z-index:6;display:flex;flex-direction:column;gap:7px;min-width:155px;padding:13px 15px;border:1px solid #d5ebd029;background:#10291eb8;backdrop-filter:blur(12px);box-shadow:0 14px 38px #0002;color:#e6efe2;animation:note-float 7s ease-in-out infinite}
 .hero-floating-note svg{color:#a8d4a0}
