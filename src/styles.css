@@ -299,3 +299,11 @@
 .growth-visual-caption small{font-size:10px;color:#a9b9a6}
 @media(max-width:680px){.growth-visual{grid-template-columns:1fr;gap:0;margin:-20px 0 40px;padding:12px 14px}.growth-visual-canvas{height:300px}.growth-visual-caption{max-width:none;padding:0 10px 16px}.growth-visual-caption>b{font-size:25px}}
 @media(prefers-reduced-motion:reduce){.growth-visual-meter i{transition:none}}
+
+/* Seed-to-spiral particle transition */
+.growth-visual-canvas:after{content:"";position:absolute;inset:8% 5%;pointer-events:none;background:radial-gradient(ellipse at center,#9fc88a0a,transparent 65%);mix-blend-mode:screen}
+.growth-visual-canvas canvas{filter:drop-shadow(0 0 12px #8dbd7430)}
+.growth-visual{position:relative}
+.growth-visual-caption{position:relative;z-index:2}
+@media(max-width:680px){.growth-visual-canvas canvas{filter:none}}
+@media(prefers-reduced-motion:reduce){.growth-visual-canvas canvas{filter:none}}
