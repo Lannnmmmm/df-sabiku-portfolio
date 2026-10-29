@@ -141,3 +141,50 @@
 @keyframes soft-glow{0%,100%{box-shadow:0 0 8px #c7b57c55}50%{box-shadow:0 0 16px #c7b57c99}}
 @media(max-width:680px){.hero-backdrop::after{animation-duration:24s}.hero-art-ring{animation-duration:30s}.reveal-on-scroll:not(.is-visible){transform:translateY(12px)}}
 @media(prefers-reduced-motion:reduce){.hero-backdrop::after,.hero-art-ring,.cinematic-orbit,.eyebrow-dot{animation:none!important}.reveal-on-scroll,.work-visual::before,.work-visual::after,.work-visual>svg,.work-content a svg,.feature-link>svg,.line-button svg{transition:none!important}.reveal-on-scroll:not(.is-visible){opacity:1;transform:none}}
+
+
+/* Academic garden redesign */
+.hero-section{min-height:min(820px,calc(100svh - 72px))}
+.hero-copy{max-width:610px;z-index:3}
+.hero-overline{display:block;font-size:9px;letter-spacing:.17em;color:#a8c5a2;margin:0 0 22px}
+.hero-overline i{font-style:normal;color:#c7b57c;padding:0 6px}
+.hero-copy h2{max-width:620px;letter-spacing:-.055em}
+.hero-copy h2 em,.growth-heading h2 em{color:#a8c99a;font-family:'Playfair Display',serif;font-weight:400}
+.portrait-stage{position:absolute;z-index:4;right:clamp(8px,5vw,72px);top:50%;width:clamp(210px,25vw,350px);height:clamp(340px,48vw,520px);transform:translateY(-51%);pointer-events:none}
+.portrait-glow{position:absolute;inset:12% -12% 8%;border-radius:50%;background:radial-gradient(ellipse,#8dbf6d2b,transparent 66%);filter:blur(18px)}
+.portrait-frame{position:absolute;inset:0;overflow:hidden;border-radius:48% 48% 18px 18px;border:1px solid #c2d8b52e;background:linear-gradient(160deg,#d4e1c510,#15281c35);box-shadow:0 30px 90px #0003;backdrop-filter:blur(5px)}
+.portrait-frame img{width:100%;height:100%;object-fit:cover;object-position:center 22%;filter:saturate(.9) contrast(1.02);mask-image:linear-gradient(to bottom,#000 0%,#000 83%,transparent 100%)}
+.portrait-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:13px;color:#b7d2a9;background:radial-gradient(ellipse at 50% 45%,#91b77b20,transparent 60%),linear-gradient(160deg,#1d3828,#102018)}
+.portrait-fallback span{font-size:9px;letter-spacing:.15em;text-align:center}
+.portrait-fallback small{font-size:8px;letter-spacing:.25em;color:#8ca28a}
+.portrait-frame:not(.portrait-missing) .portrait-fallback{display:none}
+.portrait-caption{position:absolute;z-index:2;bottom:20px;left:16px;right:16px;display:flex;flex-direction:column;gap:5px;padding:12px 14px;border:1px solid #e5f1dd22;background:#0e2119b8;backdrop-filter:blur(14px);border-radius:10px}
+.portrait-caption span{font-size:8px;letter-spacing:.15em;color:#a8c99a}
+.portrait-caption b{font-size:10px;font-weight:500;color:#f3f5ee}
+.hero-art{overflow:visible}
+.hero-art-label{z-index:5}
+.hero-seed{left:8%;top:60%;width:clamp(210px,30vw,390px);height:clamp(250px,34vw,420px);opacity:.78}
+.growth-section{padding:clamp(70px,10vw,140px) clamp(22px,7vw,110px);background:linear-gradient(180deg,#0f2419,#14291d)}
+.growth-heading{display:grid;grid-template-columns:1fr minmax(220px,360px);gap:30px;align-items:end;margin:22px 0 58px}
+.growth-heading h2{font-size:clamp(38px,6vw,76px);line-height:1.02;letter-spacing:-.05em;font-weight:400;margin:0}
+.growth-heading p{color:#b0bdb0;line-height:1.9;font-size:13px;margin:0 0 5px}
+.growth-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #c6d6bd2c}
+.growth-track article{position:relative;padding:27px 28px 10px 0;min-height:220px}
+.growth-track article+article{padding-left:28px;border-left:1px solid #c6d6bd2c}
+.growth-track article>span{font-size:9px;letter-spacing:.15em;color:#8fac83}
+.growth-icon{height:70px;display:flex;align-items:center;color:#a8c99a;font-size:26px}
+.seed-icon{font-size:22px;color:#d0c28d}
+.sprout-icon svg,.plant-icon svg{stroke-width:1}
+.growth-track h3{font-size:18px;font-weight:500;margin:6px 0 10px}
+.growth-track p{font-size:12px;line-height:1.8;color:#aab8a9;max-width:280px;margin:0}
+.community-section{padding:clamp(60px,9vw,110px) clamp(22px,7vw,110px);background:#eaf0e5;color:#1c3023}
+.community-panel{display:grid;grid-template-columns:minmax(160px,.65fr) 1.35fr;gap:clamp(28px,6vw,80px);padding:clamp(25px,5vw,60px);margin-top:25px;border:1px solid #b9cbb2;border-radius:4px;background:linear-gradient(135deg,#f5f7ef,#e4ecdf)}
+.community-mark{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;min-height:180px;color:#4d764b}
+.community-mark span{font-size:9px;line-height:1.9;letter-spacing:.15em}
+.community-panel h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(28px,4vw,46px);line-height:1.12;letter-spacing:-.03em;margin:0 0 18px;max-width:600px}
+.community-panel p{font-size:13px;line-height:1.9;color:#596b5b;max-width:620px}
+.community-panel a{display:inline-flex;align-items:center;gap:8px;margin-top:12px;color:#355d39;font-size:11px;border-bottom:1px solid #a5b9a1;padding-bottom:6px}
+.community-panel a:hover{color:#172b1c}
+@media(max-width:800px){.hero-section{min-height:780px}.hero-copy{max-width:100%;padding-right:0}.hero-copy h2{max-width:520px}.portrait-stage{right:5%;top:auto;bottom:45px;transform:none;width:190px;height:290px;opacity:.88}.hero-seed{left:-8%;top:57%;width:270px;height:300px;opacity:.45}.hero-art-label.label-top{top:12%}.hero-art-label.label-bottom{bottom:20%}.growth-heading{grid-template-columns:1fr;gap:18px}.growth-heading p{max-width:460px}.community-panel{grid-template-columns:1fr}.community-mark{min-height:70px;flex-direction:row;align-items:center}.community-mark span{text-align:right}}
+@media(max-width:560px){.hero-section{min-height:760px}.hero-copy{padding-top:15px}.hero-copy h2{font-size:clamp(36px,10vw,52px)}.portrait-stage{right:4%;bottom:52px;width:160px;height:245px}.portrait-caption{left:8px;right:8px;bottom:8px;padding:8px}.portrait-caption b{font-size:8px}.hero-seed{left:-20%;top:58%;width:240px;height:280px}.hero-art-label{font-size:7px}.growth-track{grid-template-columns:1fr}.growth-track article,.growth-track article+article{padding:22px 0;border-left:0;border-bottom:1px solid #c6d6bd2c;min-height:0}.growth-icon{height:48px}.community-panel{padding:22px}.community-mark{margin-bottom:12px}}
+@media(prefers-reduced-motion:reduce){.portrait-frame img{mask-image:none}}
