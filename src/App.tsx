@@ -1,8 +1,8 @@
-import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Sparkles } from '@react-three/drei'
-import { DoubleSide, Shape, Vector3 } from 'three'
-import type { Group, Mesh } from 'three'
+import { BufferGeometry, DoubleSide, Float32BufferAttribute, Shape, Vector3 } from 'three'
+import type { Group, Mesh, Points } from 'three'
 import { ArrowDown, ArrowUpRight, BookOpen, Globe2, Leaf, Menu, Microscope, Sprout, X } from 'lucide-react'
 
 type Language = 'id' | 'en'
@@ -257,6 +257,40 @@ function PlantObject({ growing = false, growthProgress }: { growing?: boolean; g
   )
 }
 
+
+function GrowthParticles({ progress }: { progress: number }) {
+  const cloud = useRef<Points>(null)
+  const geometry = useMemo(() => {
+    const value = new BufferGeometry()
+    value.setAttribute('position', new Float32BufferAttribute(new Float32Array(420 * 3), 3))
+    return value
+  }, [])
+  useFrame(() => {
+    if (!cloud.current) return
+    const attribute = cloud.current.geometry.attributes.position
+    const values = attribute.array as Float32Array
+    const morph = Math.min(1, Math.max(0, (progress - 0.54) / 0.46))
+    const blend = morph * morph * (3 - 2 * morph)
+    for (let i = 0; i < 420; i++) {
+      const seed = i * 12.9898
+      const startX = Math.sin(seed) * 0.22
+      const startY = Math.cos(seed * 1.7) * 0.24
+      const startZ = Math.sin(seed * 0.7) * 0.2
+      const angle = i * 2.399963
+      const radius = 0.12 + Math.sqrt(i / 420) * 1.45
+      const endX = Math.cos(angle) * radius
+      const endY = Math.sin(angle) * radius * 0.64
+      const endZ = Math.sin(angle * 0.47) * 0.22
+      values[i * 3] = startX + (endX - startX) * blend
+      values[i * 3 + 1] = startY + (endY - startY) * blend
+      values[i * 3 + 2] = startZ + (endZ - startZ) * blend
+    }
+    attribute.needsUpdate = true
+    cloud.current.geometry.computeBoundingSphere()
+  })
+  return <points ref={cloud} geometry={geometry} position={[0, 0.05, -0.55]}><pointsMaterial color="#b9d99d" size={0.025} transparent opacity={0.74} depthWrite={false} sizeAttenuation /></points>
+}
+
 function SeedScene({ growing = false, progress }: { growing?: boolean; progress?: number }) {
   return (
     <Canvas camera={{ position: [0, 0.12, growing ? 6.2 : 5.4], fov: growing ? 34 : 38 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }}>
@@ -265,7 +299,7 @@ function SeedScene({ growing = false, progress }: { growing?: boolean; progress?
       <pointLight position={[-2, 0.5, 2]} intensity={1.15} color="#8cae80" />
       <Suspense fallback={null}>
         <PlantObject growing={growing} growthProgress={progress} />
-        {growing && <Sparkles count={14} scale={4.5} size={1.1} speed={0.12} color="#d7c99b" opacity={0.22} />}
+        {growing && <Sparkles count={14} scale={4.5} size={1.1} speed={0.12} color="#d7c99b" opacity={0.22} />}{growing && <GrowthParticles progress={progress ?? 0} />}
       </Suspense>
       {!growing && <OrbitControls enablePan={false} minDistance={4.1} maxDistance={7} minPolarAngle={Math.PI * 0.28} maxPolarAngle={Math.PI * 0.72} rotateSpeed={0.45} />}
     </Canvas>
