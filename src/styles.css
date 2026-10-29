@@ -211,3 +211,38 @@
 .gallery-rings{position:absolute;width:190px;height:190px;left:50%;top:48%;transform:translate(-50%,-50%);border:1px solid #8da883;border-radius:50%;box-shadow:0 0 0 18px #8da88312,0 0 0 38px #8da8830c}
 .gallery-note{font-size:10px;color:#718171;margin:17px 0 0}
 @media(max-width:760px){.gallery-heading{grid-template-columns:1fr;gap:15px}.gallery-grid{grid-template-columns:1fr}.gallery-tile{min-height:220px}}
+
+
+/* Interactive botanical atmosphere */
+.hero-section{--pointer-x:0;--pointer-y:0;isolation:isolate}
+.hero-backdrop{background:radial-gradient(ellipse at calc(65% + var(--pointer-x)*2%) calc(40% + var(--pointer-y)*2%),#294d332e,transparent 40%),radial-gradient(ellipse at 12% 5%,#b8d5a00a,transparent 35%),linear-gradient(120deg,#07160e,#0d2418 56%,#102b1b)}
+.hero-copy{position:relative}
+.hero-art{transform:translate3d(calc(var(--pointer-x)*-3px),calc(var(--pointer-y)*-3px),0);transition:transform .45s ease-out}
+.portrait-stage{transform:translate3d(calc(var(--pointer-x)*-8px),calc(-51% + var(--pointer-y)*-5px),0);transition:transform .22s ease-out}
+.portrait-frame img{transform:translate3d(calc(var(--pointer-x)*-5px),calc(var(--pointer-y)*-3px),0) scale(1.035);transform-origin:50% 38%;transition:transform .2s ease-out}
+.portrait-frame:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,#d8e8c512 45%,transparent 60%);transform:translateX(calc(var(--pointer-x)*8%));transition:transform .25s ease-out}
+.hero-art-ring{transition:transform .35s ease-out}
+.ring-a{transform:rotate(calc(var(--pointer-x)*2deg))}
+.ring-b{transform:rotate(calc(var(--pointer-y)*-2deg))}
+.ambient-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.ambient-particles span{position:absolute;left:calc((var(--particle-index)*37 + 4)*1%);top:calc((var(--particle-index)*29 + 7)*1%);width:calc(2px + (var(--particle-index)%3)*1px);height:calc(2px + (var(--particle-index)%3)*1px);border-radius:50%;background:#c1dfa0;opacity:.2;box-shadow:0 0 14px #c3e8a5;animation:particle-drift calc(7s + var(--particle-index)*.4s) ease-in-out infinite alternate;animation-delay:calc(var(--particle-index)*-.7s)}
+@keyframes particle-drift{from{transform:translate3d(0,12px,0) scale(.7);opacity:.08}to{transform:translate3d(12px,-28px,0) scale(1.4);opacity:.45}}
+.hero-floating-note{position:absolute;z-index:6;display:flex;flex-direction:column;gap:7px;min-width:155px;padding:13px 15px;border:1px solid #d5ebd029;background:#10291eb8;backdrop-filter:blur(12px);box-shadow:0 14px 38px #0002;color:#e6efe2;animation:note-float 7s ease-in-out infinite}
+.hero-floating-note svg{color:#a8d4a0}
+.hero-floating-note span{font-size:8px;letter-spacing:.16em;color:#a8c99a}
+.hero-floating-note small{font-size:9px;color:#b4c3b2}
+.hero-floating-note b{font-size:15px;line-height:1.35;font-family:'Playfair Display',serif;font-weight:400}
+.note-left{left:0;top:27%;animation-delay:-2s}
+.note-right{right:0;top:55%;animation-delay:-4s}
+@keyframes note-float{0%,100%{translate:0 0}50%{translate:0 -9px}}
+.hero-foot{border-top:1px solid #d5ebd016}
+.hero-section .line-button{transition:background .25s ease,color .25s ease,transform .25s ease}
+.hero-section .line-button:hover{transform:translateY(-2px);background:#a8c99a;color:#0c2115}
+.work-card,.community-panel,.gallery-tile{transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}
+.work-card:hover{transform:translateY(-6px);box-shadow:0 22px 45px #0002}
+.gallery-tile:hover{transform:translateY(-4px);box-shadow:0 16px 34px #1c392018;border-color:#9db99a}
+.growth-track article{transition:background .3s ease,padding .3s ease}
+.growth-track article:hover{background:#ffffff05}
+.site-header{backdrop-filter:blur(18px)}
+@media(max-width:800px){.hero-art{transform:none}.portrait-stage{transform:none}.hero-floating-note{display:none}.ambient-particles span{opacity:.12}.portrait-frame img{transform:none}}
+@media(prefers-reduced-motion:reduce){.ambient-particles span,.hero-floating-note{animation:none}.hero-art,.portrait-stage,.portrait-frame img{transition:none}}
