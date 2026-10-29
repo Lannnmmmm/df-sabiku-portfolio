@@ -286,3 +286,16 @@
 .portrait-stage:hover .portrait-frame{box-shadow:0 38px 90px #0004,0 0 0 1px #b9d9a51c}
 @media(max-width:800px){.portrait-frame{transform:none}.portrait-frame img{transform:none}.portrait-caption{transform:none}}
 @media(prefers-reduced-motion:reduce){.portrait-frame{transform:none;transition:none}.portrait-frame img{transform:none}}
+
+/* Scroll-controlled 3D germination scene */
+.growth-visual{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(180px,.55fr);align-items:center;gap:28px;margin:-20px 0 54px;padding:18px 24px;border:1px solid #c7d9bb20;background:radial-gradient(ellipse at 38% 50%,#9bbd8310,transparent 58%),#ffffff03;overflow:hidden}
+.growth-visual-canvas{height:clamp(270px,38vw,430px);position:relative;min-width:0}
+.growth-visual-canvas canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important;touch-action:pan-y}
+.growth-visual-caption{display:flex;flex-direction:column;gap:13px;max-width:230px}
+.growth-visual-caption>span{font-size:8px;letter-spacing:.18em;color:#9fbd91}
+.growth-visual-caption>b{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(22px,3vw,34px);line-height:1.15;color:#edf3e8}
+.growth-visual-meter{height:2px;background:#d6e4d51c;width:100%;overflow:hidden}
+.growth-visual-meter i{display:block;height:100%;background:linear-gradient(90deg,#729c68,#c4dca6);box-shadow:0 0 12px #b7d99a6e;transition:width .15s linear}
+.growth-visual-caption small{font-size:10px;color:#a9b9a6}
+@media(max-width:680px){.growth-visual{grid-template-columns:1fr;gap:0;margin:-20px 0 40px;padding:12px 14px}.growth-visual-canvas{height:300px}.growth-visual-caption{max-width:none;padding:0 10px 16px}.growth-visual-caption>b{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.growth-visual-meter i{transition:none}}
