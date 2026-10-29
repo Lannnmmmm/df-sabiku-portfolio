@@ -29,7 +29,7 @@ const copy = {
     footer: 'Portofolio akademik yang berkembang seiring data terverifikasi.',
     note: 'Konten awal bersumber dari rekaman publik. Detail dan dokumentasi tambahan akan diperbarui setelah verifikasi.',
     educationLabel: 'PENDIDIKAN',
-    educationValue: 'S1 Agroteknologi · Universitas Negeri Gorontalo',
+    educationValue: 'S2 Ilmu dan Teknologi Benih · IPB (2019)  /  S1 Agroteknologi · Universitas Negeri Gorontalo (2015)',
     degreeLabel: 'GELAR AKADEMIK',
     degreeValue: 'S.P., M.Si.',
     affiliationLabel: 'AFILIASI PUBLIK',
@@ -69,7 +69,7 @@ const copy = {
     footer: 'An academic portfolio that grows with verified evidence.',
     note: 'Initial content is based on public records. Additional details and documentation will be added after verification.',
     educationLabel: 'EDUCATION',
-    educationValue: 'B.Sc. in Agrotechnology · Universitas Negeri Gorontalo',
+    educationValue: 'M.Sc. in Seed Science & Technology · IPB (2019)  /  B.Sc. in Agrotechnology · Universitas Negeri Gorontalo (2015)',
     degreeLabel: 'ACADEMIC DEGREES',
     degreeValue: 'S.P., M.Si.',
     affiliationLabel: 'PUBLIC AFFILIATION',
@@ -374,6 +374,8 @@ export default function App() {
       </section>
 
       <section className="community-section content-section" id="community"><div className="section-kicker">05 / COMMUNITY & OUTREACH</div><div className="community-panel"><div className="community-mark"><Sprout size={34}/><span>FIELD NOTES<br/>JEMBER · INDONESIA</span></div><div><h2>Ilmu yang tumbuh bersama masyarakat.</h2><p>Dokumentasi publik menunjukkan kegiatan pemberdayaan petani melalui pemanfaatan limbah kulit kopi menjadi pupuk organik cair di Desa Klungkung, Jember.</p><a href={works[3].href} target="_blank" rel="noreferrer">Baca dokumentasi institusi <ArrowUpRight size={15}/></a></div></div></section>
+
+      <section className="gallery-section content-section" id="gallery"><div className="section-kicker">06 / RESEARCH GALLERY</div><div className="gallery-heading"><h2>Catatan lapangan,<br/><em>jejak pertumbuhan.</em></h2><p>Ruang dokumentasi untuk foto laboratorium, pengamatan tanaman, kegiatan lapangan, dan hasil penelitian.</p></div><div className="gallery-grid"><article className="gallery-tile gallery-seed"><span>01 · SEED SCIENCE</span><div className="gallery-orb"></div><b>Benih & vigor</b></article><article className="gallery-tile gallery-field"><span>02 · FIELD WORK</span><div className="gallery-stems"><i></i><i></i><i></i><i></i><i></i></div><b>Pengamatan lapangan</b></article><article className="gallery-tile gallery-community"><span>03 · OUTREACH</span><div className="gallery-rings"></div><b>Kolaborasi masyarakat</b></article></div><p className="gallery-note">Ilustrasi visual sementara — dokumentasi foto asli dapat ditambahkan setelah dikurasi.</p></section>
 
       <section className="contact-strip" id="contact"><div className="contact-strip-list"><div><span>Email</span><b>:</b><strong>—</strong></div><div><span>Google Scholar</span><b>:</b><strong>—</strong></div><div><span>ORCID</span><b>:</b><strong>—</strong></div><div><span>Facebook</span><b>:</b><strong>—</strong></div><div><span>LinkedIn</span><b>:</b><strong>—</strong></div><div><span>Instagram</span><b>:</b><strong>—</strong></div><div><span>{t.contactSourceValue}</span><b>:</b><a href="https://polije.ac.id/dosen-polije-berdayakan-petani-klungkung-limbah-kulit-kopi-jadi-pupuk-organik-cair/" target="_blank" rel="noreferrer">Profil dan karya publik ↗</a></div></div></section><footer className="site-footer"><span>DF<span className="gold-dot">.</span> / ACADEMIC PORTFOLIO</span><span>{t.copyrightLabel}</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>BACK TO TOP ↑</button></footer>
     </main>
